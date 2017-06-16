@@ -95,12 +95,9 @@
     <Compile Include="Banshee.OpticalDisc.AudioCd\AudioCdService.cs" />
     <Compile Include="Banshee.OpticalDisc.AudioCd\AudioCdSource.cs" />
     <Compile Include="Banshee.OpticalDisc.AudioCd\AudioCdTrackInfo.cs" />
-    <Compile Include="Banshee.OpticalDisc.Dvd\DvdSource.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscService.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscSource.cs" />
-    <Compile Include="Banshee.OpticalDisc.Dvd\DvdModel.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscModel.cs" />
-    <Compile Include="Banshee.OpticalDisc.Dvd\DvdTrackInfo.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscTrackInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -121,6 +118,5 @@
   </ProjectExtensions>
   <ItemGroup>
     <Folder Include="Banshee.OpticalDisc\" />
-    <Folder Include="Banshee.OpticalDisc.Dvd\" />
   </ItemGroup>
 </Project>

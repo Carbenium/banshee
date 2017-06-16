@@ -10,9 +10,6 @@ SOURCES =  \
 	Banshee.OpticalDisc.AudioCd/AudioCdService.cs \
 	Banshee.OpticalDisc.AudioCd/AudioCdSource.cs \
 	Banshee.OpticalDisc.AudioCd/AudioCdTrackInfo.cs \
-	Banshee.OpticalDisc.Dvd/DvdModel.cs \
-	Banshee.OpticalDisc.Dvd/DvdSource.cs \
-	Banshee.OpticalDisc.Dvd/DvdTrackInfo.cs \
 	Banshee.OpticalDisc/DiscModel.cs \
 	Banshee.OpticalDisc/DiscService.cs \
 	Banshee.OpticalDisc/DiscSource.cs \

@@ -150,7 +150,7 @@ namespace Banshee.OpticalDisc
             eject_message.FreezeNotify ();
             eject_message.IsSpinning = true;
             eject_message.CanClose = false;
-            // Translators: {0} is the type of disc, "Audio CD" or "DVD"
+            // Translators: {0} is the type of disc ("Audio CD")
             eject_message.Text = String.Format (Catalog.GetString ("Ejecting {0}..."), GenericName.ToLower ());
             eject_message.ThawNotify ();
             PushMessage (eject_message);
@@ -169,7 +169,7 @@ namespace Banshee.OpticalDisc
                         ClearMessages ();
                         eject_message.IsSpinning = false;
                         eject_message.SetIconName ("dialog-error");
-                        // Translators: {0} is the type of disc, "Audio CD" or "DVD". {1} is the error message.
+                        // Translators: {0} is the type of disc ("Audio CD"). {1} is the error message.
                         eject_message.Text = String.Format (Catalog.GetString ("Could not eject {0}: {1}"), GenericName.ToLower (), e.Message);
                         PushMessage (eject_message);
 
