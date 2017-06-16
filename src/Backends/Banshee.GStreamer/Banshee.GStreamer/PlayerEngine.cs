@@ -78,7 +78,7 @@ namespace Banshee.GStreamer
     internal delegate void GstTaggerTagFoundCallback (IntPtr player, string tagName, ref GLib.Value value);
 
     public class PlayerEngine : Banshee.MediaEngine.PlayerEngine,
-        IEqualizer, IVisualizationDataSource, ISupportClutter
+        IEqualizer, IVisualizationDataSource
     {
         internal const string LibBansheeLibrary = "libbanshee.dll";
 
@@ -161,7 +161,6 @@ namespace Banshee.GStreamer
             state_changed_callback = new BansheePlayerStateChangedCallback (OnStateChange);
             buffering_callback = new BansheePlayerBufferingCallback (OnBuffering);
             vis_data_callback = new BansheePlayerVisDataCallback (OnVisualizationData);
-            video_pipeline_setup_callback = new VideoPipelineSetupHandler (OnVideoPipelineSetup);
             video_prepare_window_callback = new VideoPrepareWindowHandler (OnVideoPrepareWindow);
             tag_found_callback = new GstTaggerTagFoundCallback (OnTagFound);
             next_track_starting_callback = new BansheePlayerNextTrackStartingCallback (OnNextTrackStarting);
@@ -820,62 +819,10 @@ namespace Banshee.GStreamer
             get { return bp_dvd_is_menu (handle); }
         }
 
-#region ISupportClutter
-
-        private IntPtr clutter_video_sink;
-        private IntPtr clutter_video_texture;
-        private bool clutter_video_sink_enabled;
-
-        public void EnableClutterVideoSink (IntPtr videoTexture)
-        {
-            clutter_video_sink_enabled = true;
-            clutter_video_texture = videoTexture;
-        }
-
-        public void DisableClutterVideoSink ()
-        {
-            clutter_video_sink_enabled = false;
-            clutter_video_texture = IntPtr.Zero;
-        }
-
-        public bool IsClutterVideoSinkInitialized {
-            get { return
-                clutter_video_sink_enabled &&
-                clutter_video_texture != IntPtr.Zero &&
-                clutter_video_sink != IntPtr.Zero;
-            }
-        }
-
-
-        private IntPtr OnVideoPipelineSetup (IntPtr player, IntPtr bus)
-        {
-            try {
-                if (clutter_video_sink_enabled) {
-                    if (clutter_video_sink != IntPtr.Zero) {
-                        // FIXME: does this get unreffed by the pipeline?
-                    }
-
-                    clutter_video_sink = clutter_gst_video_sink_new (clutter_video_texture);
-                } else if (!clutter_video_sink_enabled && clutter_video_sink != IntPtr.Zero) {
-                    clutter_video_sink = IntPtr.Zero;
-                    clutter_video_texture = IntPtr.Zero;
-                }
-            } catch (Exception e) {
-                Log.Error ("Clutter support could not be initialized", e);
-                clutter_video_sink = IntPtr.Zero;
-                clutter_video_texture = IntPtr.Zero;
-                clutter_video_sink_enabled = false;
-            }
-
-            return clutter_video_sink;
-        }
-
         private void OnVideoPrepareWindow (IntPtr player)
         {
             OnEventChanged (PlayerEvent.PrepareVideoWindow);
         }
-
-#endregion
 
 #region Preferences
 
@@ -1070,9 +1017,6 @@ namespace Banshee.GStreamer
 
         [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
         private static extern bool bp_replaygain_get_enabled (HandleRef player);
-
-        [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr clutter_gst_video_sink_new (IntPtr texture);
 
         [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
         private static extern int bp_get_subtitle_count (HandleRef player);

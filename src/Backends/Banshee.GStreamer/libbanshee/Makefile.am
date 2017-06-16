@@ -31,12 +31,7 @@ libbanshee_la_SOURCES =  \
 	banshee-tagger.c \
 	banshee-transcoder.c
 
-if HAVE_CLUTTER
-libbanshee_la_SOURCES += clutter-gst-video-sink.c
-AM_CPPFLAGS += -I$(srcdir)/shaders
-else
-noinst_DATA = clutter-gst-video-sink.c
-endif
+noinst_DATA =
 
 noinst_HEADERS =  \
 	banshee-gst.h \
@@ -49,11 +44,7 @@ noinst_HEADERS =  \
 	banshee-player-replaygain.h \
 	banshee-player-video.h \
 	banshee-player-vis.h \
-	banshee-tagger.h \
-	clutter-gst-shaders.h \
-	clutter-gst-video-sink.h \
-	shaders/I420.h \
-	shaders/YV12.h
+	banshee-tagger.h
 
 libbanshee_la_LIBADD = \
 	$(LIBBANSHEE_LIBS) \

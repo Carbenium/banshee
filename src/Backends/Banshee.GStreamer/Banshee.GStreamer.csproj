@@ -117,10 +117,5 @@
     <None Include="libbanshee\banshee-tagger.c" />
     <None Include="libbanshee\banshee-tagger.h" />
     <None Include="libbanshee\banshee-transcoder.c" />
-    <None Include="libbanshee\clutter-gst-shaders.h" />
-    <None Include="libbanshee\clutter-gst-video-sink.c" />
-    <None Include="libbanshee\clutter-gst-video-sink.h" />
-    <None Include="libbanshee\shaders\I420.h" />
-    <None Include="libbanshee\shaders\YV12.h" />
   </ItemGroup>
 </Project>
