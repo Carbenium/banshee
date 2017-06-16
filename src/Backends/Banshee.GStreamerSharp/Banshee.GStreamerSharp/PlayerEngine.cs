@@ -292,7 +292,6 @@ namespace Banshee.GStreamerSharp
         ManualResetEvent next_track_set;
         CddaManager cdda_manager;
         VideoManager video_manager = null;
-        DvdManager dvd_manager = null;
         Visualization visualization;
 
         bool gapless_enabled;
@@ -354,13 +353,10 @@ namespace Banshee.GStreamerSharp
             playbin.Bus.AddWatch (OnBusMessage);
 
             cdda_manager = new CddaManager (playbin);
-            dvd_manager = new DvdManager (playbin);
 
             video_manager = new VideoManager (playbin);
             video_manager.PrepareWindow += OnVideoPrepareWindow;
             video_manager.Initialize ();
-
-            dvd_manager.FindNavigation (playbin);
 
             OnStateChanged (PlayerState.Ready);
 
@@ -552,8 +548,6 @@ namespace Banshee.GStreamerSharp
 
                         InstallPluginsContext install_context = new InstallPluginsContext ();
                         Gst.PbUtils.Global.InstallPluginsAsync (missing_details.ToArray (), install_context, OnInstallPluginsReturn);
-                    } else if (NavigationAdapter.MessageGetType (msg) == NavigationMessageType.CommandsChanged) {
-                        dvd_manager.HandleCommandsChanged (playbin);
                     }
                     break;
 
@@ -717,8 +711,6 @@ namespace Banshee.GStreamerSharp
         protected override void OpenUri (SafeUri uri, bool maybeVideo)
         {
             if (cdda_manager.HandleURI (playbin, uri.AbsoluteUri)) {
-                return;
-            } else if (dvd_manager.HandleURI (playbin, uri.AbsoluteUri)) {
                 return;
             } else if (playbin == null) {
                 throw new ApplicationException ("Could not open resource");

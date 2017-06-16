@@ -73,7 +73,6 @@
     <Compile Include="Banshee.GStreamerSharp\Transcoder.cs" />
     <Compile Include="Banshee.GStreamerSharp\VideoManager.cs" />
     <Compile Include="Banshee.GStreamerSharp\Visualization.cs" />
-    <Compile Include="Banshee.GStreamerSharp\DvdManager.cs" />
     <Compile Include="Banshee.GStreamerSharp\GstExtensions.cs" />
     <Compile Include="Banshee.GStreamerSharp\MediaProfileBackend.cs" />
   </ItemGroup>
