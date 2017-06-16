@@ -98,8 +98,6 @@ typedef void (* BansheePlayerTagFoundCallback)     (BansheePlayer *player, const
 typedef void (* BansheePlayerVisDataCallback)      (BansheePlayer *player, gint channels, gint samples, gfloat *data, gint bands, gfloat *spectrum);
 typedef void (* BansheePlayerNextTrackStartingCallback)     (BansheePlayer *player);
 typedef void (* BansheePlayerAboutToFinishCallback)         (BansheePlayer *player);
-typedef GstElement * (* BansheePlayerVideoPipelineSetupCallback) (BansheePlayer *player, GstBus *bus);
-typedef void (* BansheePlayerVideoPrepareWindowCallback) (BansheePlayer *player);
 typedef void (* BansheePlayerVolumeChangedCallback) (BansheePlayer *player, gdouble new_volume);
 
 struct BansheePlayer {
@@ -113,8 +111,6 @@ struct BansheePlayer {
     BansheePlayerVisDataCallback vis_data_cb;
     BansheePlayerNextTrackStartingCallback next_track_starting_cb;
     BansheePlayerAboutToFinishCallback about_to_finish_cb;
-    BansheePlayerVideoPipelineSetupCallback video_pipeline_setup_cb;
-    BansheePlayerVideoPrepareWindowCallback video_prepare_window_cb;
     BansheePlayerVolumeChangedCallback volume_changed_cb;
 
     // Pipeline Elements

@@ -33,7 +33,6 @@
 
 #include "banshee-player-private.h"
 
-void _bp_video_pipeline_setup  (BansheePlayer *player, GstBus *bus);
 void _bp_parse_stream_info (BansheePlayer *player);
 
 #endif /* _BANSHEE_PLAYER_VIDEO_H */
