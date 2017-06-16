@@ -267,9 +267,7 @@ namespace Banshee.MediaEngine
         {
             OnEventChanged (PlayerEvent.TrackInfoUpdated);
         }
-
-        public abstract string GetSubtitleDescription (int index);
-
+        
         public TrackInfo CurrentTrack {
             get { return current_track; }
         }
@@ -331,19 +329,6 @@ namespace Banshee.MediaEngine
         public virtual IntPtr VideoDisplayContext {
             set { }
             get { return IntPtr.Zero; }
-        }
-
-        public abstract int SubtitleCount {
-            get;
-        }
-
-        public abstract int SubtitleIndex {
-            set;
-        }
-
-        public abstract SafeUri SubtitleUri {
-            set;
-            get;
         }
     }
 }

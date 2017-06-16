@@ -70,9 +70,6 @@ namespace Banshee.Gui
             ((PlaybackShuffleActions)_.FindActionGroup ("PlaybackShuffle")).AttachSubmenu (
                 "/MainMenuButton/PlaybackMenu/ShuffleMenu");
 
-            ((PlaybackSubtitleActions)_.FindActionGroup ("PlaybackSubtitle")).AttachSubmenu (
-                "/MainMenuButton/PlaybackMenu/SubtitleMenu");
-
             Construct (button, _menu, false);
         }
     }
