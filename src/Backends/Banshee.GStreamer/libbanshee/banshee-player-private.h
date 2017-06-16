@@ -101,13 +101,6 @@ typedef void (* BansheePlayerAboutToFinishCallback)         (BansheePlayer *play
 typedef GstElement * (* BansheePlayerVideoPipelineSetupCallback) (BansheePlayer *player, GstBus *bus);
 typedef void (* BansheePlayerVideoPrepareWindowCallback) (BansheePlayer *player);
 typedef void (* BansheePlayerVolumeChangedCallback) (BansheePlayer *player, gdouble new_volume);
-typedef void (* BansheePlayerVideoGeometryNotifyCallback) (BansheePlayer *player, gint width, gint height, gint fps_n, gint fps_d, gint par_n, gint par_d);
-
-typedef enum {
-    BP_VIDEO_DISPLAY_CONTEXT_UNSUPPORTED = 0,
-    BP_VIDEO_DISPLAY_CONTEXT_GDK_WINDOW = 1,
-    BP_VIDEO_DISPLAY_CONTEXT_CUSTOM = 2
-} BpVideoDisplayContextType;
 
 struct BansheePlayer {
     // Player Callbacks
@@ -123,7 +116,6 @@ struct BansheePlayer {
     BansheePlayerVideoPipelineSetupCallback video_pipeline_setup_cb;
     BansheePlayerVideoPrepareWindowCallback video_prepare_window_cb;
     BansheePlayerVolumeChangedCallback volume_changed_cb;
-    BansheePlayerVideoGeometryNotifyCallback video_geometry_notify_cb;
 
     // Pipeline Elements
     GstElement *playbin;
@@ -152,14 +144,11 @@ struct BansheePlayer {
     gboolean audiosink_has_volume;
     
     // Video State
-    BpVideoDisplayContextType video_display_context_type;
     #if defined(GDK_WINDOWING_X11)
     GstVideoOverlay *video_overlay;
-    GdkWindow *video_window;
     XID video_window_xid;
     #elif defined(GDK_WINDOWING_WIN32)
     GstVideoOverlay *video_overlay;
-    GdkWindow *video_window;
     HWND video_window_xid;
     #endif
     // Video geometry
@@ -199,10 +188,6 @@ struct BansheePlayer {
     gdouble rg_gain_history[10];
     gint history_size;
     gulong rg_pad_block_id;
-
-    //dvd navigation
-    GstNavigation *navigation;
-    gboolean is_menu;
 };
 
 #endif /* _BANSHEE_PLAYER_PRIVATE_H */

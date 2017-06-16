@@ -109,7 +109,6 @@ SOURCES =  \
 	Banshee.MediaEngine/PlayerEvent.cs \
 	Banshee.MediaEngine/Tests.cs \
 	Banshee.MediaEngine/TranscoderService.cs \
-	Banshee.MediaEngine/VideoDisplayContextType.cs \
 	Banshee.MediaProfiles/MediaProfileManager.cs \
 	Banshee.MediaProfiles/Pipeline.cs \
 	Banshee.MediaProfiles/PipelineVariable.cs \

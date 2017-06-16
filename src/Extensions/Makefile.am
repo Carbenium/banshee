@@ -20,7 +20,6 @@ SUBDIRS = \
 	Banshee.MiroGuide \
 	Banshee.MultimediaKeys \
 	Banshee.NotificationArea \
-	Banshee.NowPlaying \
 	Banshee.OpticalDisc \
 	Banshee.PlayerMigration \
 	Banshee.PlayQueue \

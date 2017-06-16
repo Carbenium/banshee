@@ -348,7 +348,6 @@ src/Extensions/Banshee.MediaPanel/Makefile
 src/Extensions/Banshee.Mpris/Makefile
 src/Extensions/Banshee.MultimediaKeys/Makefile
 src/Extensions/Banshee.NotificationArea/Makefile
-src/Extensions/Banshee.NowPlaying/Makefile
 src/Extensions/Banshee.OpticalDisc/Makefile
 src/Extensions/Banshee.PlayQueue/Makefile
 src/Extensions/Banshee.PlayerMigration/Makefile

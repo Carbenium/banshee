@@ -287,16 +287,6 @@ namespace Banshee.GStreamer
             OnEventChanged (PlayerEvent.Seek);
         }
 
-        public override void VideoExpose (IntPtr window, bool direct)
-        {
-            bp_video_window_expose (handle, window, direct);
-        }
-
-        public override void VideoWindowRealize (IntPtr window)
-        {
-            bp_video_window_realize (handle, window);
-        }
-
         public override IntPtr [] GetBaseElements ()
         {
             IntPtr [] elements = new IntPtr[3];
@@ -642,15 +632,6 @@ namespace Banshee.GStreamer
             }
         }
 
-        public override VideoDisplayContextType VideoDisplayContextType {
-            get { return bp_video_get_display_context_type (handle); }
-        }
-
-        public override IntPtr VideoDisplayContext {
-            set { bp_video_set_display_context (handle, value); }
-            get { return bp_video_get_display_context (handle); }
-        }
-
         public double AmplifierLevel {
             set {
                 double scale = Math.Pow (10.0, value / 20.0);
@@ -872,21 +853,6 @@ namespace Banshee.GStreamer
 
         [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
         private static extern void bp_set_application_gdk_window (HandleRef player, IntPtr window);
-
-        [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        private static extern VideoDisplayContextType bp_video_get_display_context_type (HandleRef player);
-
-        [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bp_video_set_display_context (HandleRef player, IntPtr displayContext);
-
-        [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr bp_video_get_display_context (HandleRef player);
-
-        [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bp_video_window_expose (HandleRef player, IntPtr displayContext, bool direct);
-
-        [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bp_video_window_realize (HandleRef player, IntPtr window);
 
         [DllImport (PlayerEngine.LibBansheeLibrary, CallingConvention = CallingConvention.Cdecl)]
         private static extern void bp_get_error_quarks (out uint core, out uint library,

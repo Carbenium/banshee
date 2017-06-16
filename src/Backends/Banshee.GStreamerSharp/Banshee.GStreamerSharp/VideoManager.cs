@@ -52,7 +52,6 @@ namespace Banshee.GStreamerSharp
     public class VideoManager
     {
         Element playbin;
-        VideoDisplayContextType video_display_context_type;
         IntPtr video_window;
         ulong? video_window_xid;
         VideoOverlayAdapter xoverlay;
@@ -65,15 +64,13 @@ namespace Banshee.GStreamerSharp
 
         public void Initialize ()
         {
-            Element videosink;
-            video_display_context_type = VideoDisplayContextType.GdkWindow;
+            Element videosink;;
 
             //FIXME BEFORE PUSHING NEW GST# BACKEND: is gconfvideosink gone in 1.0? it is not there in the unmanaged backend 
             videosink = ElementFactory.Make ("gconfvideosink", "videosink");
             if (videosink == null) {
                 videosink = ElementFactory.Make ("autovideosink", "videosink");
                 if (videosink == null) {
-                    video_display_context_type = VideoDisplayContextType.Unsupported;
                     videosink = ElementFactory.Make ("fakesink", "videosink");
                     if (videosink != null) {
                         videosink ["sync"] = true;
@@ -316,23 +313,5 @@ namespace Banshee.GStreamerSharp
 
         [DllImport ("libgdk-3-0.dll")]
         private static extern IntPtr gdk_win32_drawable_get_handle (IntPtr drawable);
-
-        public VideoDisplayContextType VideoDisplayContextType {
-            get { return video_display_context_type; }
-        }
-
-        public IntPtr VideoDisplayContext {
-            set { 
-                if (VideoDisplayContextType == VideoDisplayContextType.GdkWindow) {
-                    video_window = value;
-                }
-            }
-            get { 
-                if (VideoDisplayContextType == VideoDisplayContextType.GdkWindow) {
-                        return video_window;
-                    }
-                return IntPtr.Zero;
-            }
-        }
     }
 }

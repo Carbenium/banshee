@@ -170,16 +170,6 @@ namespace Banshee.MediaEngine
             OpenUri (uri, maybeVideo);
         }
 
-        public virtual void VideoExpose (IntPtr displayContext, bool direct)
-        {
-            throw new NotImplementedException ("Engine must implement VideoExpose since this method only gets called when SupportsVideo is true");
-        }
-
-        public virtual void VideoWindowRealize (IntPtr displayContext)
-        {
-            throw new NotImplementedException ("Engine must implement VideoWindowRealize since this method only gets called when SupportsVideo is true");
-        }
-
         public virtual IntPtr [] GetBaseElements ()
         {
             return null;
@@ -320,15 +310,6 @@ namespace Banshee.MediaEngine
 
         public abstract bool SupportsEqualizer {
             get;
-        }
-
-        public abstract VideoDisplayContextType VideoDisplayContextType {
-            get;
-        }
-
-        public virtual IntPtr VideoDisplayContext {
-            set { }
-            get { return IntPtr.Zero; }
         }
     }
 }

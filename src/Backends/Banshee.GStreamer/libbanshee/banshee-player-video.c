@@ -157,11 +157,6 @@ cb_caps_set (GObject *obj, GParamSpec *pspec, BansheePlayer *p)
             p->par_n = 1;
             p->par_d = 1;
         }
-
-        /* Notify PlayerEngine if a callback was set */
-        if (p->video_geometry_notify_cb != NULL) {
-            p->video_geometry_notify_cb (p, p->width, p->height, p->fps_n, p->fps_d, p->par_n, p->par_d);
-        }
     }
 
     gst_caps_unref (caps);
@@ -206,18 +201,12 @@ _bp_video_pipeline_setup (BansheePlayer *player, GstBus *bus)
         videosink = player->video_pipeline_setup_cb (player, bus);
         if (videosink != NULL && GST_IS_ELEMENT (videosink)) {
             g_object_set (G_OBJECT (player->playbin), "video-sink", videosink, NULL);
-            player->video_display_context_type = BP_VIDEO_DISPLAY_CONTEXT_CUSTOM;
             return;
         }
     }
     
-    #if defined(GDK_WINDOWING_X11) || defined(GDK_WINDOWING_WIN32)
-
-    player->video_display_context_type = BP_VIDEO_DISPLAY_CONTEXT_GDK_WINDOW;
-    
     videosink = gst_element_factory_make ("autovideosink", "videosink");
     if (videosink == NULL) {
-        player->video_display_context_type = BP_VIDEO_DISPLAY_CONTEXT_UNSUPPORTED;
         videosink = gst_element_factory_make ("fakesink", "videosink");
         if (videosink != NULL) {
             g_object_set (G_OBJECT (videosink), "sync", TRUE, NULL);
@@ -232,10 +221,6 @@ _bp_video_pipeline_setup (BansheePlayer *player, GstBus *bus)
     if (GST_IS_BIN (videosink)) {
         g_signal_connect (videosink, "element-added", G_CALLBACK (bp_video_sink_element_added), player);
     }
-    
-    #else
-    
-    player->video_display_context_type = BP_VIDEO_DISPLAY_CONTEXT_UNSUPPORTED;
 
     #ifndef WIN32
 
@@ -246,8 +231,6 @@ _bp_video_pipeline_setup (BansheePlayer *player, GstBus *bus)
     
     g_object_set (G_OBJECT (player->playbin), "video-sink", videosink, NULL);
 
-    #endif
-    
     #endif
 
     if (player->video_prepare_window_cb != NULL) {
@@ -262,120 +245,7 @@ bp_set_video_pipeline_setup_callback (BansheePlayer *player, BansheePlayerVideoP
 }
 
 P_INVOKE void
-bp_set_video_geometry_notify_callback (BansheePlayer *player, BansheePlayerVideoGeometryNotifyCallback cb)
-{
-    SET_CALLBACK (video_geometry_notify_cb);
-}
-
-P_INVOKE void
 bp_set_video_prepare_window_callback (BansheePlayer *player, BansheePlayerVideoPrepareWindowCallback cb)
 {
     SET_CALLBACK (video_prepare_window_cb);
 }
-
-// ---------------------------------------------------------------------------
-// Public Functions
-// ---------------------------------------------------------------------------
-
-#if defined(GDK_WINDOWING_X11) || defined(GDK_WINDOWING_WIN32)
-
-P_INVOKE BpVideoDisplayContextType
-bp_video_get_display_context_type (BansheePlayer *player)
-{
-    return player->video_display_context_type;
-}
-
-P_INVOKE void
-bp_video_set_display_context (BansheePlayer *player, gpointer context)
-{
-    g_return_if_fail (IS_BANSHEE_PLAYER (player));
-    
-    if (bp_video_get_display_context_type (player) == BP_VIDEO_DISPLAY_CONTEXT_GDK_WINDOW) {
-        player->video_window = (GdkWindow *)context;
-    }
-}
-
-P_INVOKE gpointer
-bp_video_get_display_context (BansheePlayer *player)
-{
-    g_return_val_if_fail (IS_BANSHEE_PLAYER (player), NULL);
-   
-    if (bp_video_get_display_context_type (player) == BP_VIDEO_DISPLAY_CONTEXT_GDK_WINDOW) {
-        return player->video_window;
-    }
-    
-    return NULL;
-}
-
-P_INVOKE void
-bp_video_window_expose (BansheePlayer *player, GdkWindow *window, gboolean direct)
-{
-    g_return_if_fail (IS_BANSHEE_PLAYER (player));
-    
-    if (direct && player->video_overlay != NULL && GST_IS_VIDEO_OVERLAY (player->video_overlay)) {
-        gst_video_overlay_expose (player->video_overlay);
-        return;
-    }
-
-    if (player->video_overlay == NULL && !bp_video_find_video_overlay (player)) {
-        return;
-    }
-    
-    gst_object_ref (player->video_overlay);
-
-    gst_video_overlay_set_window_handle (player->video_overlay, player->video_window_xid);
-    gst_video_overlay_handle_events (player->video_overlay, TRUE);
-    gst_video_overlay_expose (player->video_overlay);
-
-    gst_object_unref (player->video_overlay);
-}
-
-// MUST be called from the GTK main thread; calling it in OnRealized will do the right thing.
-P_INVOKE void
-bp_video_window_realize (BansheePlayer *player, GdkWindow *window)
-{
-    g_return_if_fail (IS_BANSHEE_PLAYER (player));
-
-// Code commented out - this requires including gtk/gtk.h for GTK_CHECK_VERSION, which requires too many
-// buildsystem changes for the benefit of a single debug message in the failure case.
-//
-//#if GTK_CHECK_VERSION(2,18,0)
-//    //Explicitly create the native window.  GDK_WINDOW_XWINDOW will call this
-//    //function anyway, but this way we can raise a more useful message should it fail.
-//    if (!gdk_window_ensure_native (window)) {
-//        banshee_log (BANSHEE_LOG_TYPE_ERROR, "player-video", "Couldn't create native window needed for GstVideoOverlay!");
-//    }
-//#endif
-
-#if defined(GDK_WINDOWING_X11)
-    player->video_window_xid = GDK_WINDOW_XID (window);
-#elif defined (GDK_WINDOWING_WIN32)
-    player->video_window_xid = GDK_WINDOW_HWND (window);
-#endif
-}
-
-#else /* GDK_WINDOWING_X11 || GDK_WINDOWING_WIN32 */
-
-P_INVOKE BpVideoDisplayContextType
-bp_video_get_display_context_type (BansheePlayer *player)
-{
-    return player->video_display_context_type;
-}
-
-P_INVOKE void
-bp_video_set_display_context (BansheePlayer *player, gpointer context)
-{
-}
-
-P_INVOKE gpointer
-bp_video_get_display_context (BansheePlayer *player)
-{
-    return NULL;
-}
-
-P_INVOKE void
-bp_video_window_expose (BansheePlayer *player, GdkWindow *window, gboolean direct)
-{
-}
-
-#endif /* GDK_WINDOWING_X11 || GDK_WINDOWING_WIN32 */

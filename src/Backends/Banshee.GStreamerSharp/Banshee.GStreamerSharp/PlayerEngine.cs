@@ -381,16 +381,6 @@ namespace Banshee.GStreamerSharp
             }
         }
 
-        public override void VideoExpose (IntPtr window, bool direct)
-        {
-            video_manager.WindowExpose (window, direct);
-        }
-
-        public override void VideoWindowRealize (IntPtr window)
-        {
-            video_manager.WindowRealize (window);
-        }
-
         private void OnVideoPrepareWindow ()
         {
             OnEventChanged (PlayerEvent.PrepareVideoWindow);
@@ -846,18 +836,6 @@ namespace Banshee.GStreamerSharp
             }
         }
 
-        public override VideoDisplayContextType VideoDisplayContextType {
-            get { return video_manager != null ? video_manager.VideoDisplayContextType : VideoDisplayContextType.Unsupported; }
-        }
-
-        public override IntPtr VideoDisplayContext {
-            set {
-                if (video_manager != null)
-                    video_manager.VideoDisplayContext = value;
-            }
-            get { return video_manager != null ? video_manager.VideoDisplayContext : IntPtr.Zero; }
-        }
-        
 #region Preferences
 
         private PreferenceBase replaygain_preference;

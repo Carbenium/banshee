@@ -75,11 +75,7 @@ namespace Banshee.MediaEngine
         public override bool SupportsEqualizer {
             get { return false; }
         }
-
-        public override VideoDisplayContextType VideoDisplayContextType {
-            get { return VideoDisplayContextType.Unsupported; }
-        }
-
+        
         private static string [] source_capabilities = { "file", "http", "cdda" };
         public override IEnumerable SourceCapabilities {
             get { return source_capabilities; }
