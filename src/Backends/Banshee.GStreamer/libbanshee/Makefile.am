@@ -20,7 +20,6 @@ libbanshee_la_SOURCES =  \
 	banshee-gst.c \
 	banshee-player.c \
 	banshee-player-cdda.c \
-	banshee-player-dvd.c \
 	banshee-player-equalizer.c \
 	banshee-player-missing-elements.c \
 	banshee-player-pipeline.c \
@@ -36,7 +35,6 @@ noinst_DATA =
 noinst_HEADERS =  \
 	banshee-gst.h \
 	banshee-player-cdda.h \
-	banshee-player-dvd.h \
 	banshee-player-equalizer.h \
 	banshee-player-missing-elements.h \
 	banshee-player-pipeline.h \

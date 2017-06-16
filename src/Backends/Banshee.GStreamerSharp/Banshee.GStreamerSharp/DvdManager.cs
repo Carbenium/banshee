@@ -58,10 +58,6 @@ namespace Banshee.GStreamerSharp
             get; set;
         }
 
-        public bool InDvdMenu {
-            get; set;
-        }
-
         private Element GetDvdSource (Element playbin)
         {
             Element source = null;
@@ -140,7 +136,6 @@ namespace Banshee.GStreamerSharp
 
         public void HandleCommandsChanged (Element playbin)
         {
-            InDvdMenu = false;
             // Get available command to know if player is in menu
             // FIXME: GlobalVideo should be Gst.Video.Global
             Gst.Query query = Global.NavigationQueryNewCommands ();
@@ -159,7 +154,6 @@ namespace Banshee.GStreamerSharp
                         case NavigationCommand.Right:
                         case NavigationCommand.Up:
                         case NavigationCommand.Down:
-                            InDvdMenu = true;
                             break;
                         default:
                             break;
@@ -186,113 +180,6 @@ namespace Banshee.GStreamerSharp
                 ? ((Bin)video_sink).GetByInterface (NavigationAdapter.GType)
                 : video_sink;
             Navigation = NavigationAdapter.GetObject (NavigationElement);
-        }
-
-        public void NotifyMouseMove (Element playbin, double x, double y)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendMouseEvent ("mouse-move", 0, x, y);
-            }
-        }
-
-        public void NotifyMouseButtonPressed (Element playbin, int button, double x, double y)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendMouseEvent ("mouse-button-press", button, x, y);
-            }
-        }
-
-        public void NotifyMouseButtonReleased (Element playbin, int button, double x, double y)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendMouseEvent ("mouse-button-release", button, x, y);
-            }
-        }
-
-        public void NavigateToLeftMenu (Element playbin)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendCommand (NavigationCommand.Left);
-            }
-        }
-
-        public void NavigateToRightMenu (Element playbin)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendCommand (NavigationCommand.Right);
-            }
-        }
-
-        public void NavigateToUpMenu (Element playbin)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendCommand (NavigationCommand.Up);
-            }
-        }
-
-        public void NavigateToDownMenu (Element playbin)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendCommand (NavigationCommand.Down);
-            }
-        }
-
-        public void NavigateToMenu (Element playbin)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                // Menu1 == DvdMenu http://cgit.freedesktop.org/gstreamer/gst-plugins-base/tree/gst-libs/gst/video/navigation.h?h=1.0#n96 
-                Navigation.SendCommand (NavigationCommand.Menu1);
-            }
-        }
-
-        public void ActivateCurrentMenu (Element playbin)
-        {
-            if (Navigation == null) {
-                FindNavigation (playbin);
-            }
-            if (Navigation != null) {
-                Navigation.SendCommand (NavigationCommand.Activate);
-            }
-        }
-
-        public void GoToNextChapter (Element playbin)
-        {
-            long index;
-            Format format = Util.FormatGetByNick ("chapter");
-            playbin.QueryPosition (format, out index);
-            playbin.Seek (1.0, format, SeekFlags.Flush, SeekType.Set, index + 1, SeekType.None, 0L);
-        }
-
-        public void GoToPreviousChapter (Element playbin)
-        {
-            long index;
-            Format format = Util.FormatGetByNick ("chapter");
-            playbin.QueryPosition (format, out index);
-            playbin.Seek (1.0, format, SeekFlags.Flush, SeekType.Set, index - 1, SeekType.None, 0L);
         }
     }
 }

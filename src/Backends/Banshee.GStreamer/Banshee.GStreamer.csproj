@@ -98,8 +98,6 @@
     <None Include="libbanshee\banshee-player-cdda.c" />
     <None Include="libbanshee\banshee-player-cdda.h" />
     <None Include="libbanshee\banshee-gst.h" />
-    <None Include="libbanshee\banshee-player-dvd.c" />
-    <None Include="libbanshee\banshee-player-dvd.h" />
     <None Include="libbanshee\banshee-player-equalizer.c" />
     <None Include="libbanshee\banshee-player-equalizer.h" />
     <None Include="libbanshee\banshee-player-missing-elements.c" />

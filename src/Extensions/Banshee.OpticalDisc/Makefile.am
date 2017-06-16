@@ -11,7 +11,6 @@ SOURCES =  \
 	Banshee.OpticalDisc.AudioCd/AudioCdSource.cs \
 	Banshee.OpticalDisc.AudioCd/AudioCdTrackInfo.cs \
 	Banshee.OpticalDisc.Dvd/DvdModel.cs \
-	Banshee.OpticalDisc.Dvd/DvdService.cs \
 	Banshee.OpticalDisc.Dvd/DvdSource.cs \
 	Banshee.OpticalDisc.Dvd/DvdTrackInfo.cs \
 	Banshee.OpticalDisc/DiscModel.cs \
@@ -22,8 +21,7 @@ SOURCES =  \
 RESOURCES =  \
 	Banshee.OpticalDisc.addin.xml \
 	Resources/ActiveSourceUI.xml \
-	Resources/GlobalUI.xml \
-	Resources/GlobalUI_Dvd.xml
+	Resources/GlobalUI.xml
 
 if ENABLE_OPTICALDISC
 include $(top_srcdir)/build/build.mk

@@ -87,9 +87,6 @@
     <EmbeddedResource Include="Banshee.OpticalDisc.addin.xml">
       <LogicalName>Banshee.OpticalDisc.addin.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\GlobalUI_Dvd.xml">
-      <LogicalName>GlobalUI_Dvd.xml</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banshee.OpticalDisc.AudioCd\AudioCdDiscModel.cs" />
@@ -101,7 +98,6 @@
     <Compile Include="Banshee.OpticalDisc.Dvd\DvdSource.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscService.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscSource.cs" />
-    <Compile Include="Banshee.OpticalDisc.Dvd\DvdService.cs" />
     <Compile Include="Banshee.OpticalDisc.Dvd\DvdModel.cs" />
     <Compile Include="Banshee.OpticalDisc\DiscModel.cs" />
     <Compile Include="Banshee.OpticalDisc.Dvd\DvdTrackInfo.cs" />

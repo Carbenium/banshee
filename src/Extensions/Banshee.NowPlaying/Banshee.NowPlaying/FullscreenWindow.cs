@@ -96,9 +96,7 @@ namespace Banshee.NowPlaying
                     return true;
                 case Gdk.Key.Return:
                 case Gdk.Key.KP_Enter:
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                       ServiceManager.PlayerEngine.ActivateCurrentMenu ();
-                    } else if (controls == null || !controls.Visible) {
+                    if (controls == null || !controls.Visible) {
                         ShowControls ();
                     } else {
                         HideControls ();
@@ -107,36 +105,22 @@ namespace Banshee.NowPlaying
                 case Gdk.Key.Right:
                 case Gdk.Key.rightarrow:
                 case Gdk.Key.KP_Right:
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                       ServiceManager.PlayerEngine.NavigateToRightMenu ();
-                    } else {
-                        player.Position += mod ? fast_seek : slow_seek;
-                        ShowControls ();
-                    }
+                    player.Position += mod ? fast_seek : slow_seek;
+                    ShowControls ();
                     break;
                 case Gdk.Key.Left:
                 case Gdk.Key.leftarrow:
                 case Gdk.Key.KP_Left:
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                       ServiceManager.PlayerEngine.NavigateToLeftMenu ();
-                    } else {
-                        player.Position -= mod ? fast_seek : slow_seek;
-                        ShowControls ();
-                    }
+                    player.Position -= mod ? fast_seek : slow_seek;
+                    ShowControls ();
                     break;
                 case Gdk.Key.uparrow:
                 case Gdk.Key.Up:
                 case Gdk.Key.KP_Up:
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                       ServiceManager.PlayerEngine.NavigateToUpMenu ();
-                    }
                     break;
                 case Gdk.Key.downarrow:
                 case Gdk.Key.Down:
                 case Gdk.Key.KP_Down:
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                       ServiceManager.PlayerEngine.NavigateToDownMenu ();
-                    }
                     break;
                 }
 

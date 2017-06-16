@@ -32,7 +32,7 @@ using Banshee.ServiceStack;
 
 namespace Banshee.OpticalDisc.Dvd
 {
-    public class DvdSource : DiscSource, IBasicPlaybackController
+    public class DvdSource : DiscSource
     {
         public DvdSource (DiscService service, DvdModel model)
             : base (service, (DiscModel) model, Catalog.GetString ("DVD"), model.Title, 58)
@@ -67,35 +67,6 @@ namespace Banshee.OpticalDisc.Dvd
         }
 
 #endregion
-
-#region IBasicPlaybackController implementation
-
-        public bool First ()
-        {
-            ServiceManager.PlayerEngine.NavigateToMenu ();
-            return true;
-        }
-
-        public bool Next (bool restart, bool changeImmediately)
-        {
-            if (!ServiceManager.PlayerEngine.InDvdMenu) {
-                ServiceManager.PlayerEngine.GoToNextChapter ();
-            }
-            // Do nothing if in the menu
-            return true;
-        }
-
-        public bool Previous (bool restart)
-        {
-            if (!ServiceManager.PlayerEngine.InDvdMenu) {
-                ServiceManager.PlayerEngine.GoToPreviousChapter ();
-            }
-            // Do nothing if in the menu
-            return true;
-        }
-
-#endregion
-
     }
 }
 

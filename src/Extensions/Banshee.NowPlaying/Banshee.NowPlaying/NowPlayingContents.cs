@@ -177,11 +177,7 @@ namespace Banshee.NowPlaying
 
         [GLib.ConnectBefore]
         void OnMouseMove (object o, MotionNotifyEventArgs args)
-        {
-            if (ServiceManager.PlayerEngine.InDvdMenu) {
-                ServiceManager.PlayerEngine.NotifyMouseMove (args.Event.X, args.Event.Y);
-            }
-        }
+        { }
 
         [GLib.ConnectBefore]
         void OnButtonPress (object o, ButtonPressEventArgs args)
@@ -196,9 +192,6 @@ namespace Banshee.NowPlaying
                     break;
                 case Gdk.EventType.ButtonPress:
                     video_event.GrabFocus ();
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                        ServiceManager.PlayerEngine.NotifyMouseButtonPressed ((int)args.Event.Button, args.Event.X, args.Event.Y);
-                    }
                     break;
             }
         }
@@ -208,9 +201,6 @@ namespace Banshee.NowPlaying
         {
             switch (args.Event.Type) {
                 case Gdk.EventType.ButtonRelease:
-                    if (ServiceManager.PlayerEngine.InDvdMenu) {
-                        ServiceManager.PlayerEngine.NotifyMouseButtonReleased ((int)args.Event.Button, args.Event.X, args.Event.Y);
-                    }
                     break;
             }
         }
@@ -218,38 +208,30 @@ namespace Banshee.NowPlaying
         [GLib.ConnectBefore]
         void OnKeyPress (object o, KeyPressEventArgs args)
         {
-            if (!ServiceManager.PlayerEngine.InDvdMenu) {
-                return;
-            }
             switch (args.Event.Key) {
                 case Gdk.Key.leftarrow:
                 case Gdk.Key.KP_Left:
                 case Gdk.Key.Left:
-                    ServiceManager.PlayerEngine.NavigateToLeftMenu ();
                     args.RetVal = true;
                     break;
                 case Gdk.Key.rightarrow:
                 case Gdk.Key.KP_Right:
                 case Gdk.Key.Right:
-                    ServiceManager.PlayerEngine.NavigateToRightMenu ();
                     args.RetVal = true;
                     break;
                 case Gdk.Key.uparrow:
                 case Gdk.Key.KP_Up:
                 case Gdk.Key.Up:
-                    ServiceManager.PlayerEngine.NavigateToUpMenu ();
                     args.RetVal = true;
                     break;
                 case Gdk.Key.downarrow:
                 case Gdk.Key.KP_Down:
                 case Gdk.Key.Down:
-                    ServiceManager.PlayerEngine.NavigateToDownMenu ();
                     args.RetVal = true;
                     break;
                 case Gdk.Key.Break:
                 case Gdk.Key.KP_Enter:
                 case Gdk.Key.Return:
-                    ServiceManager.PlayerEngine.ActivateCurrentMenu ();
                     args.RetVal = true;
                     break;
             }

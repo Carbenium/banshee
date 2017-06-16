@@ -978,69 +978,6 @@ namespace Banshee.GStreamerSharp
             get { return new SafeUri ((string)playbin ["suburi"]); }
         }
 
-#region DVD support
-
-        public override void NotifyMouseMove (double x, double y)
-        {
-            dvd_manager.NotifyMouseMove (playbin, x, y);
-        }
-
-        public override void NotifyMouseButtonPressed (int button, double x, double y)
-        {
-            dvd_manager.NotifyMouseButtonPressed (playbin, button, x, y);
-        }
-
-        public override void NotifyMouseButtonReleased (int button, double x, double y)
-        {
-            dvd_manager.NotifyMouseButtonReleased (playbin, button, x, y);
-        }
-
-        public override void NavigateToLeftMenu ()
-        {
-            dvd_manager.NavigateToLeftMenu (playbin);
-        }
-
-        public override void NavigateToRightMenu ()
-        {
-            dvd_manager.NavigateToRightMenu (playbin);
-        }
-
-        public override void NavigateToUpMenu ()
-        {
-            dvd_manager.NavigateToUpMenu (playbin);
-        }
-
-        public override void NavigateToDownMenu ()
-        {
-            dvd_manager.NavigateToDownMenu (playbin);
-        }
-
-        public override void NavigateToMenu ()
-        {
-            dvd_manager.NavigateToMenu (playbin);
-        }
-
-        public override void ActivateCurrentMenu ()
-        {
-            dvd_manager.ActivateCurrentMenu (playbin);
-        }
-
-        public override void GoToNextChapter ()
-        {
-            dvd_manager.GoToNextChapter (playbin);
-        }
-
-        public override void GoToPreviousChapter ()
-        {
-            dvd_manager.GoToPreviousChapter (playbin);
-        }
-
-        public override bool InDvdMenu {
-            get { return dvd_manager.InDvdMenu; }
-        }
-
-#endregion
-
 #region Preferences
 
         private PreferenceBase replaygain_preference;

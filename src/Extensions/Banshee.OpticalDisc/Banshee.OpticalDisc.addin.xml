@@ -17,7 +17,6 @@
 
   <Extension path="/Banshee/ServiceManager/Service">
     <Service class="Banshee.OpticalDisc.AudioCd.AudioCdService"/>
-    <Service class="Banshee.OpticalDisc.Dvd.DvdService"/>
   </Extension>
 
 </Addin>
