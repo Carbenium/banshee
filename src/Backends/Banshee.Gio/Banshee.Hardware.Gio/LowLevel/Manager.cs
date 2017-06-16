@@ -264,7 +264,7 @@ namespace Banshee.Hardware.Gio
 #endregion
     }
 
-    public class MountArgs : EventArgs
+    public class MountArgs : System.EventArgs
     {
         public IDevice Device {
             get; private set;

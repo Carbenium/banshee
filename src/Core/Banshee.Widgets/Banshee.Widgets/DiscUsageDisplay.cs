@@ -31,8 +31,6 @@ using System;
 using Gtk;
 using Cairo;
 
-using Hyena.Gui;
-
 namespace Banshee.Widgets
 {
     public class DiscUsageDisplay : Gtk.DrawingArea

@@ -6,7 +6,6 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <OutputType>Exe</OutputType>
     <UseParentDirectoryAsNamespace>true</UseParentDirectoryAsNamespace>
-    <AssemblyName>Banshee</AssemblyName>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4B890CB0-F5C8-4B1B-A1B8-3813BF5126C0}</ProjectGuid>
     <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\Administrator\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
@@ -24,22 +23,20 @@
     <Optimize>false</Optimize>
     <ConsolePause>false</ConsolePause>
     <Commandlineparameters>--debug --uninstalled</Commandlineparameters>
+    <AssemblyName>Banshee</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Windows|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <Externalconsole>true</Externalconsole>
-    <OutputPath>..\..\..\bin\bin</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin</OutputPath>
+    <AssemblyName>Booter</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="dbus-sharp">
-      <HintPath>..\..\..\bin\bin\dbus-sharp.dll</HintPath>
+      <Package>dbus-sharp-2.0</Package>
     </Reference>
     <Reference Include="Mono.Posix">
-      <HintPath>..\..\..\bin\bin\Mono.Posix.dll</HintPath>
+      <HintPath>..\..\..\bin\Mono.Posix.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

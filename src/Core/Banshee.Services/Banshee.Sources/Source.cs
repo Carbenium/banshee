@@ -533,7 +533,7 @@ namespace Banshee.Sources
 #region Public Properties
 
         public ReadOnlyCollection<Source> Children {
-            get { return read_only_children; }
+            get { return read_only_children ?? new ReadOnlyCollection<Source>(new Source[0]); }
         }
 
         string [] ISource.Children {

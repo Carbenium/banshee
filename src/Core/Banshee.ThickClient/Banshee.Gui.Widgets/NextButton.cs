@@ -62,9 +62,12 @@ namespace Banshee.Gui.Widgets
 
         private void OnActionsChanged (object o, EventArgs args)
         {
-            if (!shuffle_actions.Sensitive) {
+            if (!shuffle_actions.Sensitive)
+            {
                 Menu.Deactivate ();
             }
+
+            IconSize = IconSize;
 
             Menu = shuffle_actions.CreateMenu (with_repeat_actions);
 

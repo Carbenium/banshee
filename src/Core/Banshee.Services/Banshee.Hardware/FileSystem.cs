@@ -27,18 +27,43 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Banshee.Hardware
 {
     public static class FileSystem
     {
+        public static IEnumerable<string> Safe (string head, params string[] tail)
+        {
+            var path = new [] { head }.Concat (tail);
+
+            return path.Select (Safe);
+        }
+
+        public static string Safe (string path)
+        {
+            return ch_unsafe.Aggregate (path, Wipe);
+        }
+
+        private static string Wipe(string input, char wipe)
+        {
+            return input.Replace (wipe, ch_escape);
+        }
+
+        public static bool EqualsNoCase(string x, string y)
+        {
+            return string.Equals (x, y, StringComparison.InvariantCultureIgnoreCase);
+        }
+
         public static bool IsCaseSensitive (IVolume volume)
         {
             var drive = new DriveInfo (volume.MountPoint);
-            return !case_insensitive_filesystems.Contains (drive.DriveFormat);
+            return !fs_nocase.Contains (drive.DriveFormat);
         }
 
-        private static readonly string[] case_insensitive_filesystems = { "vfat", "msdos", "ntfs" };
+        private static readonly char     ch_escape = '_';
+        private static readonly char[]   ch_unsafe = { '/', '|', '\\', '<', '>', '?', '*', '"' };
+        private static readonly string[] fs_nocase = { "vfat", "msdos", "ntfs" };
     }
 }
 

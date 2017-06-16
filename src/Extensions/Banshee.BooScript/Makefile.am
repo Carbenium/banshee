@@ -12,7 +12,11 @@ RESOURCES =  \
 	Resources/vorbis-oga-extension.boo
 
 if HAVE_BOO
+if ENABLE_BOOSCRIPT
 include $(top_srcdir)/build/build.mk
+else
+include $(top_srcdir)/build/build.dist.mk
+endif
 else
 include $(top_srcdir)/build/build.dist.mk
 endif

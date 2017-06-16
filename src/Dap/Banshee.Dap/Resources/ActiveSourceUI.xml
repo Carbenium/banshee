@@ -6,4 +6,12 @@
       <toolitem action="SyncDapAction"/>
     </placeholder>
   </toolbar>
+	
+	<toolbar name="SourceToolbar">
+    <placeholder name="SourceActions">
+      <toolitem action="ClaimDapAction"/>
+      <toolitem action="SyncDapAction"/>
+      <toolitem action="UnmapSourceAction"/>
+    </placeholder>
+  </toolbar>
 </ui>

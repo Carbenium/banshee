@@ -10,7 +10,11 @@ SOURCES =  \
 RESOURCES = Banshee.Wikipedia.addin.xml
 
 if HAVE_LIBWEBKIT
+if ENABLE_WIKIPEDIA
 include $(top_srcdir)/build/build.mk
+else
+include $(top_srcdir)/build/build.dist.mk
+endif
 else
 include $(top_srcdir)/build/build.dist.mk
 endif

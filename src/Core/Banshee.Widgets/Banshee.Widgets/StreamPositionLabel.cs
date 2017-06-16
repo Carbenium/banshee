@@ -74,27 +74,15 @@ namespace Banshee.Widgets
                 layout.Dispose ();
             }
 
+            last_text = null;
             layout = new Pango.Layout (PangoContext);
             layout.FontDescription = PangoContext.FontDescription;
             layout.Ellipsize = Pango.EllipsizeMode.None;
         }
 
-        private bool first_style_set = false;
-
-        protected override void OnStyleUpdated ()
-        {
-            base.OnStyleUpdated ();
-
-            if (first_style_set) {
-                BuildLayouts ();
-                UpdateLabel ();
-            }
-
-            first_style_set = true;
-        }
-
         protected override void OnGetPreferredHeight (out int minimum_height, out int natural_height)
         {
+            base.OnGetPreferredHeight (out minimum_height, out natural_height);
             minimum_height = natural_height = 0;
             if (!IsRealized || layout == null) {
                 return;
@@ -107,6 +95,7 @@ namespace Banshee.Widgets
 
         protected override void OnGetPreferredWidth (out int minimum_width, out int natural_width)
         {
+            base.OnGetPreferredWidth (out minimum_width, out natural_width);
             minimum_width = natural_width = 0;
             if (!IsRealized || layout == null) {
                 return;

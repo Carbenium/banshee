@@ -33,7 +33,7 @@ using Mono.Unix;
 
 using Hyena.Gui;
 using Hyena.Data.Gui;
-using Hyena.Data.Gui.Accessibility;
+//using Hyena.Data.Gui.Accessibility;
 using Banshee.Gui;
 
 using Banshee.Streaming;
@@ -42,57 +42,57 @@ using Banshee.ServiceStack;
 
 namespace Banshee.Collection.Gui
 {
-    class ColumnCellStatusIndicatorAccessible : ColumnCellAccessible, Atk.IImageImplementor
-    {
-        private string image_description;
+    //class ColumnCellStatusIndicatorAccessible : ColumnCellAccessible, Atk.IImageImplementor
+    //{
+    //    private string image_description;
 
-        public ColumnCellStatusIndicatorAccessible (object bound_object, ColumnCellStatusIndicator cell, ICellAccessibleParent parent) : base (bound_object, cell as ColumnCell, parent)
-        {
-            image_description = cell.GetTextAlternative (bound_object);
-        }
+    //    public ColumnCellStatusIndicatorAccessible (object bound_object, ColumnCellStatusIndicator cell, ICellAccessibleParent parent) : base (bound_object, cell as ColumnCell, parent)
+    //    {
+    //        image_description = cell.GetTextAlternative (bound_object);
+    //    }
 
-        public override void Redrawn ()
-        {
-            string new_image_description = cell.GetTextAlternative (bound_object);
+    //    public override void Redrawn ()
+    //    {
+    //        string new_image_description = cell.GetTextAlternative (bound_object);
 
-            if (image_description != new_image_description)
-                GLib.Signal.Emit (this, "visible-data-changed");
+    //        if (image_description != new_image_description)
+    //            GLib.Signal.Emit (this, "visible-data-changed");
 
-            image_description = new_image_description;
-        }
+    //        image_description = new_image_description;
+    //    }
 
-        public string ImageLocale { get { return null; } }
+    //    public string ImageLocale { get { return null; } }
 
-        public bool SetImageDescription (string description)
-        {
-            return false;
-        }
+    //    public bool SetImageDescription (string description)
+    //    {
+    //        return false;
+    //    }
 
-        public void GetImageSize (out int width, out int height)
-        {
-            if (!String.IsNullOrEmpty (cell.GetTextAlternative (bound_object)))
-                width = height = 16;
-            else
-                width = height = Int32.MinValue;
-        }
+    //    public void GetImageSize (out int width, out int height)
+    //    {
+    //        if (!String.IsNullOrEmpty (cell.GetTextAlternative (bound_object)))
+    //            width = height = 16;
+    //        else
+    //            width = height = Int32.MinValue;
+    //    }
 
-        public string ImageDescription {
-            get {
-                return image_description;
-            }
-        }
+    //    public string ImageDescription {
+    //        get {
+    //            return image_description;
+    //        }
+    //    }
 
-        public void GetImagePosition (out int x, out int y, Atk.CoordType coordType)
-        {
-            if (!String.IsNullOrEmpty (cell.GetTextAlternative (bound_object))) {
-                GetPosition (out x, out y, coordType);
-                x += 4;
-                y += 4;
-            } else {
-                x = y = Int32.MinValue;
-            }
-        }
-    }
+    //    public void GetImagePosition (out int x, out int y, Atk.CoordType coordType)
+    //    {
+    //        if (!String.IsNullOrEmpty (cell.GetTextAlternative (bound_object))) {
+    //            GetPosition (out x, out y, coordType);
+    //            x += 4;
+    //            y += 4;
+    //        } else {
+    //            x = y = Int32.MinValue;
+    //        }
+    //    }
+    //}
 
     public class ColumnCellStatusIndicator : ColumnCell, ISizeRequestCell, ITooltipCell
     {
@@ -143,10 +143,10 @@ namespace Banshee.Collection.Gui
             min_width = max_width = pixbuf_size + 2 * padding;
         }
 
-        public override Atk.Object GetAccessible (ICellAccessibleParent parent)
-        {
-            return new ColumnCellStatusIndicatorAccessible (BoundObject, this, parent);
-        }
+        //public override Atk.Object GetAccessible (ICellAccessibleParent parent)
+        //{
+        //    return new ColumnCellStatusIndicatorAccessible (BoundObject, this, parent);
+        //}
 
         public override string GetTextAlternative (object obj)
         {

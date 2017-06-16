@@ -21,10 +21,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>.</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
+    <OutputPath>..\..\..\bin</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>

@@ -34,7 +34,7 @@ using Hyena.Gui;
 using Hyena.Gui.Theming;
 using Hyena.Gui.Canvas;
 using Hyena.Data.Gui;
-using Hyena.Data.Gui.Accessibility;
+//using Hyena.Data.Gui.Accessibility;
 using Hyena.Gui.Theatrics;
 
 using Banshee.Gui;

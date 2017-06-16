@@ -37,7 +37,11 @@ RESOURCES =  \
 	Resources/GlobalUI.xml
 
 if DAAP_ENABLED
+if ENABLE_DAAP
 include $(top_srcdir)/build/build.mk
+else
+include $(top_srcdir)/build/build.dist.mk
+endif
 else
 include $(top_srcdir)/build/build.dist.mk
 endif

@@ -156,16 +156,10 @@ namespace Banshee.Hardware.Gio
         public void Eject ()
         {
             if (CanEject) {
-                Volume.Eject (MountUnmountFlags.Force, null, (s, result) =>
-                {
-                    try {
-                        if (!Volume.EjectWithOperationFinish (result)) {
-                            Hyena.Log.ErrorFormat ("Failed to eject {0}", Volume.Name);
-                        }
-                    } catch (Exception e) {
-                        Hyena.Log.Error (e);
-                    }
-                });
+                ManualResetEvent handle = new ManualResetEvent (false);
+                Volume.EjectWithOperation (MountUnmountFlags.Force, null, null, delegate { handle.Set (); });
+                if (!handle.WaitOne (TimeSpan.FromSeconds (5)))
+                    Hyena.Log.Information ("Timed out trying to eject {0}", Name);
             }
         }
 

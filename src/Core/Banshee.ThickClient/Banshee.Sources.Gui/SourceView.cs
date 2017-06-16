@@ -73,6 +73,7 @@ namespace Banshee.Sources.Gui
         {
             FixedHeightMode = false;
             BuildColumns ();
+            InitTheme ();
 
             store = new SourceModel ();
             store.SourceRowInserted += OnSourceRowInserted;
@@ -220,6 +221,14 @@ namespace Banshee.Sources.Gui
             };
         }
 
+        private void InitTheme()
+        {
+            theme = Hyena.Gui.Theming.ThemeEngine.CreateTheme (this);
+
+            var light_text = Hyena.Gui.Theming.GtkTheme.GetCairoTextMidColor (this);
+            header_renderer.Foreground = CairoExtensions.ColorGetHex (light_text, false);
+        }
+
 #endregion
 
 #region Gtk.Widget Overrides
@@ -227,10 +236,7 @@ namespace Banshee.Sources.Gui
         protected override void OnStyleUpdated ()
         {
             base.OnStyleUpdated ();
-            theme = Hyena.Gui.Theming.ThemeEngine.CreateTheme (this);
-
-            var light_text = Hyena.Gui.Theming.GtkTheme.GetCairoTextMidColor (this);
-            header_renderer.Foreground = CairoExtensions.ColorGetHex (light_text, false);
+            InitTheme ();
         }
 
         // While scrolling the source view with the keyboard, we want to

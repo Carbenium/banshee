@@ -20,13 +20,12 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\bin</OutputPath>
+    <DefineConstants>DEBUG TREEVIEW</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Windows|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\bin</OutputPath>
+    <OutputPath>..\..\..\bin</OutputPath>
+    <DefineConstants>TREEVIEW</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Banshee.Services\Banshee.Services.csproj">
@@ -61,43 +60,52 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="atk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    <Reference Include="atk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-3.0</Package>
     </Reference>
+    <Reference Include="gdk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gdk-sharp-3.0</Package>
+    </Reference>
+    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>glib-sharp-3.0</Package>
+    </Reference>
+    <Reference Include="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-3.0</Package>
+    </Reference>
+    <Reference Include="pango-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-3.0</Package>
+    </Reference>
+    <Reference Include="System.Core" />
     <Reference Include="System" />
     <Reference Include="cairo-sharp, Version=1.10.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
-      <HintPath>..\..\..\bin\bin\cairo-sharp.dll</HintPath>
+      <HintPath>..\..\..\bin\cairo-sharp.dll</HintPath>
+      <Package>gtk-sharp-3.0</Package>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Addins">
-      <HintPath>..\..\..\bin\bin\Mono.Addins.dll</HintPath>
-      <Package>mono-addins</Package>
-    </Reference>
-    <Reference Include="dbus-sharp">
-      <HintPath>..\..\..\bin\bin\dbus-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="dbus-sharp-glib">
-      <HintPath>..\..\..\bin\bin\dbus-sharp-glib.dll</HintPath>
+      <HintPath>..\..\..\bin\Mono.Addins.dll</HintPath>
     </Reference>
     <Reference Include="taglib-sharp">
-      <HintPath>..\..\..\bin\bin\taglib-sharp.dll</HintPath>
-      <Package>taglib-sharp</Package>
+      <HintPath>..\..\..\bin\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\bin\bin\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\..\bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix">
-      <HintPath>..\..\..\bin\bin\Mono.Posix.dll</HintPath>
+      <HintPath>..\..\..\bin\Mono.Posix.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security">
-      <HintPath>..\..\..\bin\bin\Mono.Security.dll</HintPath>
+      <HintPath>..\..\..\bin\Mono.Security.dll</HintPath>
     </Reference>
-    <Reference Include="gio-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gio-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gio-sharp-3.0</Package>
+    </Reference>
+    <Reference Include="dbus-sharp-glib">
+      <Package>dbus-sharp-glib-2.0</Package>
+    </Reference>
+    <Reference Include="dbus-sharp">
+      <Package>dbus-sharp-2.0</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\browser-album-cover.png">
@@ -288,6 +296,10 @@
     <Compile Include="Banshee.Gui\ArtistListActions.cs" />
     <Compile Include="Banshee.Collection.Gui\ColumnCellArtistText.cs" />
     <Compile Include="Banshee.Collection.Gui\IArtistListRenderer.cs" />
+    <Compile Include="Banshee.Gui\MainMenuButton.cs" />
+    <Compile Include="Banshee.Sources.Gui\SimpleListSourceContents.cs" />
+    <Compile Include="Banshee.Collection.Gui\SearchableTreeView.cs" />
+    <Compile Include="Banshee.Collection.Gui\TrackFilterTreeView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

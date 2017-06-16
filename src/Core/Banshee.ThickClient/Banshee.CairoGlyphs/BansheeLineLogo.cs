@@ -60,18 +60,18 @@ namespace Banshee.CairoGlyphs
             // then re-scale to account for the extra size that will be added via stroke.
             // glyph_scale is the stroke width and the actual transformation size
             double box_scale = box_size / original_size;
-            double glyph_scale = Math.Floor ((box_size - box_scale) / original_size);
+            double glyph_scale = (box_size - box_scale) / original_size;
 
             // compute the alignment to the pixel grid for the stroke/scale
-            double pixel_align = Math.Floor (glyph_scale + 0.5) / 2.0;
+            double pixel_align = (glyph_scale + 0.5) / 2.0;
 
             // figure out the actual size in pixels of the glyph
-            double actual_width = glyph_scale * original_width + 2 * Math.Floor (pixel_align);
-            double actual_height = glyph_scale * original_height + 2 * Math.Floor (pixel_align);
+            double actual_width = glyph_scale * original_width + 2 * pixel_align;
+            double actual_height = glyph_scale * original_height + 2 * pixel_align;
 
             // compute the offset accounting for box, grid alignment, and figure alignment
-            double tx = box.X + pixel_align + Math.Round ((box.Width - actual_width) * xalign);
-            double ty = box.Y + pixel_align + Math.Round ((box.Height - actual_height) * yalign);
+            double tx = box.X + pixel_align + (box.Width - actual_width) * xalign;
+            double ty = box.Y + pixel_align + (box.Height - actual_height) * yalign;
 
             // save the context, and transform the current/new context
             cr.Save ();

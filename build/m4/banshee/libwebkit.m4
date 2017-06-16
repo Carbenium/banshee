@@ -3,7 +3,7 @@ AC_DEFUN([BANSHEE_CHECK_LIBWEBKIT],
 	WEBKIT_MIN_VERSION=1.2.2
 	SOUP_MIN_VERSION=2.42
 
-	AC_ARG_ENABLE(webkit, AC_HELP_STRING([--disable-webkit], [Disable extensions which require WebKit]), , enable_webkit="yes")
+	AC_ARG_ENABLE(webkit, AC_HELP_STRING([--enable-webkit], [Disable extensions which require WebKit]), , enable_webkit="no")
 
 	if test "x$enable_webkit" = "xyes"; then
 		have_libwebkit=no

@@ -4,7 +4,8 @@ SUBDIRS = \
    Mtp \
    MusicBrainz \
    Lastfm \
-   Lastfm.Gui
+   Lastfm.Gui \
+   Gtk.Extra
 
 MAINTAINERCLEANFILES = \
 	Makefile.in

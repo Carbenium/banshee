@@ -34,7 +34,11 @@ using Banshee.Collection.Database;
 
 namespace Banshee.Collection.Gui
 {
+#if TREEVIEW
+    public class QueryFilterView<T> : TrackFilterTreeView<QueryFilterInfo<string>>
+#else
     public class QueryFilterView<T> : TrackFilterListView<QueryFilterInfo<string>>
+#endif
     {
         public QueryFilterView (string blank) : this (new Column ("Filter", new ColumnCellQueryText (blank, "Title", true), 1.0))
         {

@@ -2,7 +2,7 @@ AC_DEFUN([BANSHEE_CHECK_YOUTUBE],
 [
 	GDATASHARP_REQUIRED_VERSION=1.4
 
-	AC_ARG_ENABLE(youtube, AC_HELP_STRING([--disable-youtube], [Disable Youtube extension]), , enable_youtube="yes")
+	AC_ARG_ENABLE(youtube, AC_HELP_STRING([--enable-youtube], [Enable Youtube extension]), , enable_youtube="no")
 
 	if test "x$enable_youtube" = "xyes"; then
 

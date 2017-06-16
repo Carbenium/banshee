@@ -28,29 +28,28 @@
     </CustomCommands>
     <Optimize>false</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Windows|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <OutputPath>..\..\..\bin\bin</OutputPath>
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin</OutputPath>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-3.0</Package>
+    </Reference>
     <Reference Include="Mono.Posix" />
-    <Reference Include="gdk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gdk-sharp-3.0</Package>
+    </Reference>
     <Reference Include="Mono.Ssdp">
-      <HintPath>..\..\..\bin\bin\Mono.Ssdp.dll</HintPath>
-      <Package>mono.ssdp</Package>
+      <HintPath>..\..\..\bin\Mono.Ssdp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Upnp">
-      <HintPath>..\..\..\bin\bin\Mono.Upnp.dll</HintPath>
-      <Package>mono.upnp</Package>
+      <HintPath>..\..\..\bin\Mono.Upnp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Upnp.Dcp.MediaServer1">
-      <HintPath>..\..\..\bin\bin\Mono.Upnp.Dcp.MediaServer1.dll</HintPath>
-      <Package>mono.upnp.dcp.mediaserver1</Package>
+      <HintPath>..\..\..\bin\Mono.Upnp.Dcp.MediaServer1.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>

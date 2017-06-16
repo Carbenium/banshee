@@ -126,10 +126,9 @@ namespace Banshee.Sources.Gui
 
         protected override void OnGetPreferredWidth (Widget widget, out int minimum_width, out int natural_width)
         {
+            base.OnGetPreferredWidth (widget, out minimum_width, out natural_width);
             if (!(widget is TreeView)) {
                 minimum_width = natural_width = 200;
-            } else {
-                base.OnGetPreferredWidth (widget, out minimum_width, out natural_width);
             }
         }
 

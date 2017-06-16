@@ -36,7 +36,7 @@ using Hyena.Widgets;
 
 namespace Banshee.Dap.Gui
 {
-    public class DapInfoBar : RoundedFrame
+    public class DapInfoBar : Bin
     {
         private DapSource source;
         private SegmentedBar disk_bar;
@@ -65,8 +65,6 @@ namespace Banshee.Dap.Gui
 
         private void BuildWidget ()
         {
-            HBox box = new HBox ();
-
             disk_bar_align = new Alignment (0.5f, 0.5f, 1.0f, 1.0f);
             disk_bar = new SegmentedBar ();
             disk_bar.ValueFormatter = DapValueFormatter;
@@ -80,16 +78,14 @@ namespace Banshee.Dap.Gui
 
             disk_bar_align.Add (disk_bar);
 
-            box.PackStart (disk_bar_align, true, true, 0);
-            disk_bar_align.TopPadding = 6;
-
-            Add (box);
-            box.ShowAll ();
+            Add (disk_bar_align);
 
             SizeAllocated += delegate (object o, Gtk.SizeAllocatedArgs args) {
                 SetBackground ();
                 disk_bar.HorizontalPadding = (int)(args.Allocation.Width * 0.25);
             };
+
+            ShowAll ();
         }
 
         private string DapValueFormatter (SegmentedBar.Segment segment)
@@ -106,7 +102,7 @@ namespace Banshee.Dap.Gui
 
         private void OnSourceUpdated (object o, EventArgs args)
         {
-            ThreadAssist.ProxyToMain (delegate {
+            ThreadAssist.BlockingProxyToMain (delegate {
                 try {
                     if (source == null || source.Sync.Syncing) {
                         return;
@@ -126,21 +122,24 @@ namespace Banshee.Dap.Gui
 
         private void SetBackground ()
         {
-            Cairo.Color light = CairoExtensions.GdkRGBAToCairoColor (StyleContext.GetBackgroundColor (StateFlags.Normal));
-            Cairo.Color dark = CairoExtensions.ColorShade (light, 0.85);
+            //Cairo.Color light = CairoExtensions.GdkRGBAToCairoColor (StyleContext.GetBackgroundColor (StateFlags.Normal));
+            //Cairo.Color dark = CairoExtensions.ColorShade (light, 0.85);
 
-            Cairo.LinearGradient grad = new Cairo.LinearGradient (0, Allocation.Y, 0, Allocation.Y + Allocation.Height);
-            grad.AddColorStop (0, dark);
-            grad.AddColorStop (1, light);
-            FillPattern = grad;
+            //Cairo.LinearGradient grad = new Cairo.LinearGradient (0, Allocation.Y, 0, Allocation.Y + Allocation.Height);
+            //grad.AddColorStop (0, dark);
+            //grad.AddColorStop (1, light);
+            //FillPattern = grad;
         }
 
         private void UpdateUsage ()
         {
+            var cap = (double)source.BytesCapacity;
+
+            if (Math.Abs (cap) < 0.1) return;
+
             var bytes_used = source.BytesUsed;
             var bytes_music = source.BytesMusic;
             var bytes_video = source.BytesVideo;
-            var cap = (double)source.BytesCapacity;
 
             long data = bytes_used - bytes_music - bytes_video;
 

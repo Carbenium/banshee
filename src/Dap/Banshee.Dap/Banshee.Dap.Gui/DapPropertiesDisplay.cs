@@ -89,14 +89,13 @@ namespace Banshee.Dap.Gui
             Gdk.Rectangle rect = new Gdk.Rectangle (0, 0,
                 Allocation.Width, Allocation.Height);
             theme.Context.ShowStroke = true;
-            theme.DrawFrameBackground (cr, rect, true);
+            theme.DrawFrameBackground (cr, rect, new Color(1.0, 1.0, 1.0, 0.5));
             theme.DrawFrameBorder (cr, rect);
         }
 
         protected override void OnSizeAllocated (Gdk.Rectangle allocation)
         {
             base.OnSizeAllocated (allocation);
-            QueueDraw ();
         }
 
         /*private void BuildPropertyTable ()
@@ -115,7 +114,7 @@ namespace Banshee.Dap.Gui
 
         public bool SetSource (ISource src)
         {
-            this.source = source as DapSource;
+            this.source = src as DapSource;
             return this.source != null;
         }
 

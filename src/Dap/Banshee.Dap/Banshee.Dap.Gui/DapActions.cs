@@ -51,12 +51,12 @@ namespace Banshee.Dap.Gui
             AddImportant (
                 new ActionEntry ("ClaimDapAction", null,
                     Catalog.GetString ("Claim"), null,
-                    String.Empty, OnClaimDap)
+                    Catalog.GetString ("Claim"), OnClaimDap)
             );
             AddImportant (
                 new ActionEntry ("SyncDapAction", null,
                     Catalog.GetString ("Sync"), null,
-                    String.Empty, OnSyncDap)
+                    Catalog.GetString ("Sync"), OnSyncDap)
             );
 
             AddUiFromFile ("GlobalUI.xml");
@@ -89,12 +89,12 @@ namespace Banshee.Dap.Gui
             ThreadAssist.ProxyToMain (UpdateActions);
         }
 
-        private void UpdateActions ()
+        internal void UpdateActions ()
         {
             DapSource dap = Dap;
             if (dap != null) {
-                UpdateAction ("SyncDapAction", dap.Sync.Enabled);
-                UpdateAction ("ClaimDapAction", dap is PotentialSource);
+                UpdateAction ("SyncDapAction", dap.IsConnected && dap.Sync.Enabled);
+                UpdateAction ("ClaimDapAction", !dap.IsConnected);
             }
         }
 

@@ -35,7 +35,11 @@ using Banshee.Gui;
 
 namespace Banshee.Collection.Gui
 {
+#if TREEVIEW
+    public class YearListView : TrackFilterTreeView<YearInfo>
+#else
     public class YearListView : TrackFilterListView<YearInfo>
+#endif
     {
         protected YearListView (IntPtr ptr) : base () {}
 

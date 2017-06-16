@@ -125,8 +125,8 @@ namespace Banshee.Widgets
 
         protected override void OnGetPreferredHeight (out int minimum_height, out int natural_height)
         {
+            base.OnGetPreferredHeight (out minimum_height, out natural_height);
             if (label == null) {
-                base.OnGetPreferredHeight (out minimum_height, out natural_height);
                 return;
             }
 
@@ -143,8 +143,8 @@ namespace Banshee.Widgets
 
         protected override void OnGetPreferredWidth (out int minimum_width, out int natural_width)
         {
+            base.OnGetPreferredWidth (out minimum_width, out natural_width);
             if (label == null) {
-                base.OnGetPreferredWidth (out minimum_width, out natural_width);
                 return;
             }
 

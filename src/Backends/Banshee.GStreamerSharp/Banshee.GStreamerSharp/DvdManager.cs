@@ -34,6 +34,8 @@ using Gst.Video;
 
 using Hyena;
 
+using Global = Gst.Video.Global;
+
 namespace Banshee.GStreamerSharp
 {
     public class DvdManager
@@ -141,7 +143,7 @@ namespace Banshee.GStreamerSharp
             InDvdMenu = false;
             // Get available command to know if player is in menu
             // FIXME: GlobalVideo should be Gst.Video.Global
-            Gst.Query query = Gst.Video.Global.NavigationQueryNewCommands ();
+            Gst.Query query = Global.NavigationQueryNewCommands ();
 
             NavigationCommand[] cmds;
             if (Navigation == null) {

@@ -32,9 +32,85 @@ using Gtk;
 using Hyena.Widgets;
 
 using Banshee.ServiceStack;
+using System.Linq;
 
 namespace Banshee.Gui.Widgets
 {
+    public class RepeatButton : Button
+    {
+        static PlaybackRepeatActions Group
+        {
+            get
+            {
+                return ServiceManager.Get<InterfaceActionService> ()
+                                     .PlaybackActions
+                                     .RepeatActions;
+            }
+        }
+
+        static RadioAction [] Actions {
+            get {
+                return Group.ListActions ()
+                            .Reverse ()
+                            .OfType<RadioAction> ()
+                            .ToArray ();
+            }
+        }
+
+        readonly PlaybackRepeatActions _group;
+        readonly RadioAction [] _actions;
+
+        public RepeatButton ()
+        {
+            Child = new Image ();
+
+            _group = Group;
+            _actions = Actions;
+
+            _group.Changed += OnGroupChanged;
+
+            foreach (var act in _actions)
+            {
+                act.Activated += OnRadioActivated;
+
+                if (act.Active) _ (act);
+            }
+
+            ShowAll ();
+        }
+
+        void _ (PlaybackRepeatActions actions)
+        {
+            Sensitive = actions.Sensitive;
+
+            _ (actions.Active);
+        }
+
+        void _ (Gtk.RadioAction active)
+        {
+            var child = (Image) Child;
+
+            child.Stock = active.StockId;
+            child.IconName = active.IconName;
+            child.TooltipText = active.Tooltip;
+        }
+
+        protected override void OnPressed ()
+        {
+            base.OnPressed ();
+
+            var next = _actions.Concat (_actions)
+                               .SkipWhile (x => !x.Active)
+                               .Skip (1)
+                               .First ();
+
+            next.Activate ();
+        }
+
+        void OnGroupChanged (object o, EventArgs x) => _ ((PlaybackRepeatActions) o);
+        void OnRadioActivated (object o, EventArgs x) => _ ((RadioAction) o);
+    }
+
     public class RepeatActionButton : HBox
     {
         private PlaybackRepeatActions actions = ServiceManager.Get<InterfaceActionService> ().PlaybackActions.RepeatActions;

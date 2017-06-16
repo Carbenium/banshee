@@ -56,7 +56,10 @@ namespace Nereid
 
         protected override void OnRegisterServices ()
         {
-            ServiceManager.RegisterService<Nereid.PlayerInterface> ();
+            if (ApplicationContext.CommandLine.Contains("classic"))
+                ServiceManager.RegisterService<Nereid.PlayerInterface> ();
+            else
+                ServiceManager.RegisterService<Nereid.PlayerInterfaceLite> ();
         }
 
         public override string ClientId {

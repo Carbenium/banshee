@@ -16,7 +16,11 @@ RESOURCES = Banshee.UPnPClient.addin.xml
 EXTRA_BUNDLE = $(MONOUPNP_ASSEMBLIES)
 
 if UPNP_ENABLED
+if ENABLE_UPNPCLIENT
 include $(top_srcdir)/build/build.mk
+else
+include $(top_srcdir)/build/build.dist.mk
+endif
 
 define EXTRA_INSTALL_DATA_HOOK
 	for ASM in $(MONOUPNP_ASSEMBLIES); do \

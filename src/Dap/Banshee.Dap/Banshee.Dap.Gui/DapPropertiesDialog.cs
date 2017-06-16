@@ -62,7 +62,7 @@ namespace Banshee.Dap
 
             HBox iconbox = new HBox();
             iconbox.Spacing = 10;
-            //Image icon = new Image (source.Properties.Get<string> ("Icon.Names")[0], IconSize.Dialog);
+            //Image icon = new Image (source.Properties.Get<string[]> ("Icon.Names")[0], IconSize.Dialog);
             //icon.Yalign = 0.0f;
             //icon.Pixbuf = device.GetIcon(48);
             //iconbox.PackStart(icon, false, false, 0);
@@ -143,8 +143,11 @@ namespace Banshee.Dap
         private ProgressBar UsedProgressBar {
             get {
                 ProgressBar usedBar = new ProgressBar();
-                double progress = (double)source.BytesUsed / (double)source.BytesCapacity;
-                usedBar.Fraction = Math.Max (0.0, Math.Min (1.0, progress));
+
+                if (0 < source.BytesCapacity) {
+                    double progress = (double)source.BytesUsed / (double)source.BytesCapacity;
+                    usedBar.Fraction = Math.Max (0.0, Math.Min (1.0, progress));
+                }
                 usedBar.Text = String.Format (
                     Catalog.GetString("{0} of {1}"),
                     new Hyena.Query.FileSizeQueryValue (source.BytesUsed).ToUserQuery (),

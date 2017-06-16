@@ -369,7 +369,8 @@ namespace Banshee.Gui
 
                 var selection = Selection;
                 var playing_track = ServiceManager.PlayerEngine.CurrentTrack;
-                var playback_source = (DatabaseSource)ServiceManager.PlaybackController.Source;
+                var playback_source = ServiceManager.PlaybackController.Source;
+                var database_source = playback_source as DatabaseSource;
                 int count = selection.Count;
                 Sensitive = Visible = true;
                 bool has_selection = count > 0;
@@ -390,9 +391,9 @@ namespace Banshee.Gui
 
                 UpdateAction ("PlayingTrackAction", !is_idle && playing_track is DatabaseTrackInfo, is_playing_or_paused, null);
                 UpdateAction ("AddPlayingTrackToPlaylistAction", source is MusicLibrarySource, is_playing_or_paused, null);
-                UpdateAction ("RatePlayingTrackAction", playback_source.HasEditableTrackProperties, is_playing_or_paused, null);
-                UpdateAction ("PlayingTrackPropertiesAction", playback_source.HasViewableTrackProperties, is_playing_or_paused, source);
-                UpdateAction ("PlayingTrackEditorAction", playback_source.HasEditableTrackProperties, is_playing_or_paused, source);
+                UpdateAction ("RatePlayingTrackAction", database_source != null && database_source.HasEditableTrackProperties, is_playing_or_paused, null);
+                UpdateAction ("PlayingTrackPropertiesAction", database_source != null && database_source.HasViewableTrackProperties, is_playing_or_paused, source);
+                UpdateAction ("PlayingTrackEditorAction", database_source != null && database_source.HasEditableTrackProperties, is_playing_or_paused, source);
                 UpdateAction ("RemovePlayingTrackAction", playback_source.CanRemoveTracks, is_playing_or_paused, source);
                 UpdateAction ("DeletePlayingTrackFromDriveAction", playback_source.CanDeleteTracks, is_playing_or_paused, source);
                 UpdateAction ("OpenPlayingTrackFolderAction", playback_source.CanDeleteTracks, is_playing_or_paused, source);

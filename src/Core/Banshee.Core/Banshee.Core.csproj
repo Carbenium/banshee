@@ -21,27 +21,15 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\bin</OutputPath>
-    <DefineConstants>ENABLE_TESTS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Windows|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\bin</OutputPath>
-    <CustomCommands>
-      <CustomCommands>
-        <Command type="AfterBuild" command="..\..\..\build\windows\post-build.bat" workingdir="${SolutionDir}" />
-      </CustomCommands>
-    </CustomCommands>
+    <OutputPath>..\..\..\bin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\Lastfm\Lastfm.csproj">
-      <Project>{C1F63FC5-4B96-48B2-B7F7-5B33FCC4F2A2}</Project>
-      <Name>Lastfm</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>glib-sharp-3.0</Package>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -57,27 +45,19 @@
     </ProjectReference>
     <Reference Include="Mono.Addins, Version=0.4.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\bin\Mono.Addins.dll</HintPath>
-      <Package>mono-addins</Package>
-    </Reference>
-    <Reference Include="dbus-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\bin\dbus-sharp.dll</HintPath>
+      <HintPath>..\..\..\bin\Mono.Addins.dll</HintPath>
     </Reference>
     <Reference Include="taglib-sharp, Version=2.0.3.7, Culture=neutral, PublicKeyToken=db62eba44689b5b0">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\bin\taglib-sharp.dll</HintPath>
-      <Package>taglib-sharp</Package>
+      <HintPath>..\..\..\bin\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Private>False</Private>
-      <Package>nunit</Package>
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="dbus-sharp">
+      <Package>dbus-sharp-2.0</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Posix">
-      <HintPath>..\..\..\bin\bin\Mono.Posix.dll</HintPath>
+      <HintPath>..\..\..\bin\Mono.Posix.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

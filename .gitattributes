@@ -1,4 +1,5 @@
-*.sln -crlf
+*.sln text eol=crlf
+*.[cf]sproj text eol=crlf
 tests/data/xspf/xspf-1_0.2.xsd -crlf
 build/bundle/packages/patches/monobjc/nant-disable-native-enable-debug.patch -crlf
 build/bundle/packages/patches/monobjc/remove-executable-path-dllimport.patch -crlf

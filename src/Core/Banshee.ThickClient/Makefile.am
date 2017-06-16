@@ -5,6 +5,12 @@ LINK = $(REF_BANSHEE_THICKCLIENT)
 
 if ENABLE_GNOME
 BUILD_DEFINES = "-define:GNOME"
+else
+BUILD_DEFINES =
+endif
+
+if ENABLE_TREEVIEW
+BUILD_DEFINES += "-define:TREEVIEW"
 endif
 
 SOURCES =  \
@@ -36,9 +42,11 @@ SOURCES =  \
 	Banshee.Collection.Gui/PersistentColumnController.cs \
 	Banshee.Collection.Gui/QueryFilterView.cs \
 	Banshee.Collection.Gui/SearchableListView.cs \
+	Banshee.Collection.Gui/SearchableTreeView.cs \
 	Banshee.Collection.Gui/TerseTrackListView.cs \
 	Banshee.Collection.Gui/Tests/ArtworkManagerTests.cs \
 	Banshee.Collection.Gui/TrackFilterListView.cs \
+	Banshee.Collection.Gui/TrackFilterTreeView.cs \
 	Banshee.Collection.Gui/TrackListView.cs \
 	Banshee.Collection.Gui/XmlColumnController.cs \
 	Banshee.Collection.Gui/YearListView.cs \
@@ -125,6 +133,7 @@ SOURCES =  \
 	Banshee.Gui/IGlobalUIActions.cs \
 	Banshee.Gui/IHasSourceView.cs \
 	Banshee.Gui/InterfaceActionService.cs \
+	Banshee.Gui/MainMenuButton.cs \
 	Banshee.Gui/PersistentPaneController.cs \
 	Banshee.Gui/PersistentWindowController.cs \
 	Banshee.Gui/PlaybackActions.cs \
@@ -163,6 +172,7 @@ SOURCES =  \
 	Banshee.Sources.Gui/ITrackModelSourceContents.cs \
 	Banshee.Sources.Gui/LazyLoadSourceContents.cs \
 	Banshee.Sources.Gui/ObjectListSourceContents.cs \
+	Banshee.Sources.Gui/SimpleListSourceContents.cs \
 	Banshee.Sources.Gui/SourceComboBox.cs \
 	Banshee.Sources.Gui/SourceIconResolver.cs \
 	Banshee.Sources.Gui/SourceModel.cs \

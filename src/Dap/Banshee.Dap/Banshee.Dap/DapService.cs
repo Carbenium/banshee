@@ -115,7 +115,7 @@ namespace Banshee.Dap
                     }
 
                     while (to_remove.Count > 0) {
-                        UnmapDevice (to_remove.Dequeue ().Device.Uuid);
+                        Unmap (to_remove.Dequeue ().Device.Uuid);
                     }
                 }
             }
@@ -136,7 +136,7 @@ namespace Banshee.Dap
 
                 List<DapSource> dap_sources = new List<DapSource> (sources.Values);
                 foreach (DapSource source in dap_sources) {
-                    UnmapDevice (source.Device.Uuid);
+                    Unmap (source.Device.Uuid);
                 }
 
                 sources.Clear ();
@@ -147,21 +147,14 @@ namespace Banshee.Dap
             }
         }
 
-        private DapSource FindDeviceSource (IDevice device)
+        internal DapSource FindDeviceSource (IDevice device, bool force = false)
         {
             foreach (TypeExtensionNode node in supported_dap_types) {
                 try {
                     DapSource source = (DapSource)node.CreateInstance ();
-                    source.DeviceInitialize (device, false);
-                    source.LoadDeviceContents ();
                     source.AddinId = node.Addin.Id;
-                    return source;
-                } catch (InvalidDeviceStateException) {
-                    Log.WarningFormat (
-                        "Dap.DapService: invalid state, mapping potential source for {0}",
-                        device.Name
-                    );
-                    DapSource source = new PotentialSource (this, node, device);
+                    source.DeviceInitialize (device, force);
+                    source.LoadDeviceContents ();
                     return source;
                 } catch (InvalidDeviceException) {
                 } catch (InvalidCastException e) {
@@ -177,25 +170,6 @@ namespace Banshee.Dap
         private void MapDevice (IDevice device)
         {
             Scheduler.Schedule (new MapDeviceJob (this, device));
-        }
-
-        internal void SwapSource (DapSource oldSource, DapSource newSource, bool makeActive)
-        {
-            if (oldSource.Device.Uuid != newSource.Device.Uuid) {
-                Log.ErrorFormat (
-                    "Dap.DapService: swap ignored from {0} to {1}.",
-                    oldSource.Device.Uuid, newSource.Device.Uuid
-                );
-                return;
-            }
-            Log.DebugFormat (
-                "Dap.DapService: Swapping {0} with UUID {1} for {2}",
-                oldSource.GetType ().Name, oldSource.Device.Uuid,
-                newSource.GetType ().Name
-            );
-
-            Unmap (oldSource.Device.Uuid);
-            MapSource (newSource, makeActive);
         }
 
         private class MapDeviceJob : IJob
@@ -226,7 +200,7 @@ namespace Banshee.Dap
                             return;
                         }
 
-                        if (device is IVolume && (device as IVolume).ShouldIgnore) {
+                        if (device is IVolume && ((IVolume)device).ShouldIgnore) {
                             return;
                         }
 
@@ -308,7 +282,7 @@ namespace Banshee.Dap
             DapSource source = null;
             lock (sync) {
                 if (sources == null) {
-                    // DapService already disposed...
+                    Log.WarningFormat ("Dap.DapService: already Disposed, can't unmap {0}", uuid);
                     return;
                 }
 
@@ -343,11 +317,6 @@ namespace Banshee.Dap
             if (!sources.TryGetValue (args.Device.Uuid, out source)) {
                 MapDevice (args.Device);
                 return;
-            }
-
-            PotentialSource potential = source as PotentialSource;
-            if (potential != null) {
-                potential.TryInitialize ();
             }
         }
 

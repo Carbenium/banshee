@@ -44,11 +44,11 @@ namespace Banshee.MultimediaKeys
         private const string BusName = "org.gnome.SettingsDaemon";
         private const string ObjectPath = "/org/gnome/SettingsDaemon";
 
-        private delegate void MediaPlayerKeyPressedHandler (string application, string key);
+        internal delegate void MediaPlayerKeyPressedHandler (string application, string key);
 
         // GNOME 2.20
         [Interface ("org.gnome.SettingsDaemon")]
-        private interface ISettingsDaemon220
+        internal interface ISettingsDaemon220
         {
             void GrabMediaPlayerKeys (string application, uint time);
             void ReleaseMediaPlayerKeys (string application);
@@ -57,7 +57,7 @@ namespace Banshee.MultimediaKeys
 
         // GNOME 2.22
         [Interface ("org.gnome.SettingsDaemon.MediaKeys")]
-        private interface ISettingsDaemon222
+        internal interface ISettingsDaemon222
         {
             void GrabMediaPlayerKeys (string application, uint time);
             void ReleaseMediaPlayerKeys (string application);

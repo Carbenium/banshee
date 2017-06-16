@@ -1,8 +1,5 @@
-if EXTERNAL_NOTIFY_SHARP
-NOTIFY_SHARP_LIBS = $(NOTIFY_SHARP_LIBS)
-else
+if !EXTERNAL_NOTIFY_SHARP
 MCS_FLAGS+="-define:INTERNAL_NOTIFY_SHARP"
-NOTIFY_SHARP_LIBS = 
 endif
 
 ASSEMBLY = Banshee.NotificationArea
@@ -25,8 +22,12 @@ RESOURCES =  \
 if PLATFORM_DARWIN
 include $(top_srcdir)/build/build.dist.mk
 else
+if ENABLE_NOTIFICATIONAREA
 include $(top_srcdir)/build/build.mk
 module_SCRIPTS += Banshee.NotificationArea.dll.config
+else
+include $(top_srcdir)/build/build.dist.mk
+endif
 endif
 
 EXTRA_DIST += Banshee.NotificationArea.dll.config

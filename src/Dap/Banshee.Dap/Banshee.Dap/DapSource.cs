@@ -28,6 +28,7 @@
 //
 
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading;
@@ -56,10 +57,10 @@ namespace Banshee.Dap
         private DapSync sync;
         private DapInfoBar dap_info_bar;
         private Page page;
-        // private DapPropertiesDisplay dap_properties_display;
+        private DapPropertiesDisplay dap_properties_display;
 
         private IDevice device;
-        internal IDevice Device {
+        protected internal IDevice Device {
             get { return device; }
         }
 
@@ -110,8 +111,6 @@ namespace Banshee.Dap
                 }
             }
 
-            Flush ();
-
             if (dap_info_bar != null) {
                 var info_bar = dap_info_bar;
                 ThreadAssist.ProxyToMain (info_bar.Destroy);
@@ -126,6 +125,8 @@ namespace Banshee.Dap
 
             if (sync != null)
                 sync.Dispose ();
+
+            base.Dispose ();
         }
 
         private void PurgeTemporaryPlaylists ()
@@ -194,13 +195,11 @@ namespace Banshee.Dap
             });
 
             Properties.Set<bool> ("Nereid.SourceContents.HeaderVisible", false);
+            Properties.Set<bool> ("Nereid.SourceContents.FooterVisible", false);
             Properties.Set<System.Reflection.Assembly> ("ActiveSourceUIResource.Assembly", System.Reflection.Assembly.GetExecutingAssembly ());
             Properties.SetString ("ActiveSourceUIResource", "ActiveSourceUI.xml");
 
             sync = new DapSync (this);
-
-            /*dap_properties_display = new DapPropertiesDisplay (this);
-            Properties.Set<Banshee.Sources.Gui.ISourceContents> ("Nereid.SourceContents", dap_properties_display);*/
 
             if (String.IsNullOrEmpty (GenericName)) {
                 GenericName = Catalog.GetString ("Media Player");
@@ -220,28 +219,24 @@ namespace Banshee.Dap
                 }
             }
 
-            AddChildSource (music_group_source = new MusicGroupSource (this));
+            AddChildSource (music_group_source = music_group_source ?? new MusicGroupSource (this));
             // We want the group sources to be on top of the list, with Music first
             music_group_source.Order = -30;
 
-            if (SupportsVideo) {
+            if (SupportsVideo && null == video_group_source) {
                 video_group_source = new VideoGroupSource (this);
                 video_group_source.Order = -20;
             }
 
-            if (SupportsPodcasts) {
+            if (SupportsPodcasts && null == podcast_group_source) {
                 podcast_group_source = new PodcastGroupSource (this);
                 podcast_group_source.Order = -10;
             }
 
             BuildPreferences ();
 
-            ThreadAssist.ProxyToMain (delegate {
-                dap_info_bar = new DapInfoBar (this);
-                Properties.Set<Gtk.Widget> ("Nereid.SourceContents.FooterWidget", dap_info_bar);
-
-                Properties.Set<Banshee.Sources.Gui.ISourceContents> ("Nereid.SourceContents", new DapContent (this));
-            });
+            Properties.Set<Gtk.Widget> ("Nereid.SourceContents.FooterWidget", dap_info_bar = dap_info_bar ?? new DapInfoBar (this));
+            Properties.Set<Banshee.Sources.Gui.ISourceContents> ("Nereid.SourceContents", dap_properties_display = dap_properties_display ?? new DapContent (this));
         }
 
         private void BuildPreferences ()
@@ -386,8 +381,9 @@ namespace Banshee.Dap
 
         protected bool TrackNeedsTranscoding (TrackInfo track)
         {
-            string extension = ServiceManager.MediaProfileManager.GetExtensionForMimeType (track.MimeType);
+            string extension = ServiceManager.MediaProfileManager.GetExtensionForMimeType (track.MimeType) ?? Path.GetExtension (track.LocalPath);
             if (extension != null) {
+                extension = extension.ToLower().TrimStart ('.');
                 foreach (string mimetype in AcceptableMimeTypes) {
                     if (extension == ServiceManager.MediaProfileManager.GetExtensionForMimeType (mimetype)) {
                         return false;
@@ -398,16 +394,16 @@ namespace Banshee.Dap
             return true;
         }
 
-        public struct DapProperty {
+        public class DapProperty {
             public string Name;
             public string Value;
             public DapProperty (string k, string v) { Name = k; Value = v; }
         }
 
-        private List<DapProperty> dap_properties = new List<DapProperty> ();
+        private IDictionary<string, string> dap_properties = new Dictionary<string, string> ();
         protected void AddDapProperty (string key, string val)
         {
-            dap_properties.Add (new DapProperty (key, val));
+            dap_properties [key] = val;
         }
 
         protected void AddYesNoDapProperty (string key, bool val)
@@ -416,7 +412,7 @@ namespace Banshee.Dap
         }
 
         public IEnumerable<DapProperty> DapProperties {
-            get { return dap_properties; }
+            get { return dap_properties.Select(kv => new DapProperty(kv.Key, kv.Value)); }
         }
 
         protected override void AddTrackAndIncrementCount (DatabaseTrackInfo track)
@@ -562,6 +558,10 @@ namespace Banshee.Dap
 
         public override bool PlaylistsReadOnly {
             get { return IsReadOnly; }
+        }
+
+        public virtual bool IsConnected {
+            get { return true; }
         }
 
         private Banshee.Configuration.SchemaEntry<long> space_for_data;

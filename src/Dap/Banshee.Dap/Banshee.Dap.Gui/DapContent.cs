@@ -66,6 +66,7 @@ namespace Banshee.Dap.Gui
 
             BuildWidgets ();
             BuildActions ();
+
             dap.Properties.PropertyChanged += OnPropertyChanged;
         }
 
@@ -104,7 +105,6 @@ namespace Banshee.Dap.Gui
             }
 
             hbox.PackStart (table, false, false, 0);
-            hbox.ShowAll ();
             dap.Preferences["sync"]["library-options"].DisplayWidget = hbox;
 
             var properties = new Banshee.Preferences.Gui.NotebookPage (dap.Preferences) {
@@ -127,7 +127,6 @@ namespace Banshee.Dap.Gui
         {
             var opts = new LibrarySyncOptions (library_sync);
             table.AddRow (library_sync, opts.RowCells);
-            table.ShowAll ();
             library_opts.Add (library_sync, opts);
         }
 
@@ -146,6 +145,13 @@ namespace Banshee.Dap.Gui
             }
         }
 
+        internal static void UpdateActions ()
+        {
+            if (null != actions) {
+                actions.UpdateActions ();
+            }
+        }
+
         private void SetTitleText (string name)
         {
             title.Markup = String.Format ("<span size=\"x-large\" weight=\"bold\">{0}</span>", name);
@@ -157,6 +163,6 @@ namespace Banshee.Dap.Gui
                 SetTitleText (args.NewValue.ToString ());
         }
 
-        private static Banshee.Gui.BansheeActionGroup actions;
+        private static Banshee.Dap.Gui.DapActions actions;
     }
 }

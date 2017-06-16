@@ -49,6 +49,10 @@ using Banshee.ServiceStack;
 using Banshee.Configuration;
 using Banshee.Preferences;
 
+using Constants = Gst.Constants;
+using Global = Gst.Global;
+using GlobalPbUtil = Gst.PbUtils.Global;
+
 namespace Banshee.GStreamerSharp
 {
     public class PlayerEngine : Banshee.MediaEngine.PlayerEngine, IEqualizer, IVisualizationDataSource

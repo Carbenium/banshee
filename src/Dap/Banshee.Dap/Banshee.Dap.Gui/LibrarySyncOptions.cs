@@ -150,8 +150,10 @@ namespace Banshee.Dap.Gui
 
         private void OnPlaylistChanged (object o, EventArgs args)
         {
-            var db_src = o as DatabaseSource;
-            combo.Update (db_src, String.Format (Catalog.GetString ("Sync from \u201c{0}\u201d"), db_src.Name), db_src.Order);
+            ThreadAssist.ProxyToMain (() => {
+                var db_src = (DatabaseSource)o;
+                combo.Update (db_src, String.Format (Catalog.GetString ("Sync from \u201c{0}\u201d"), db_src.Name), db_src.Order);
+            });
         }
 
         private void OnChildSourceAdded (SourceEventArgs args)

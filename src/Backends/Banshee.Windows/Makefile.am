@@ -14,4 +14,10 @@ SOURCES =  \
 
 RESOURCES = Banshee.Windows.addin.xml
 
+## TODO: Build rules?
+#if PLATFORM_WINDOWS
+#include $(top_srcdir)/build/build.mk
+#else
 include $(top_srcdir)/build/build.dist.mk
+#endif
+

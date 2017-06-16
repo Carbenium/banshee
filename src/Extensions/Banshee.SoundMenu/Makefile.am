@@ -17,7 +17,11 @@ SOURCES =  \
 RESOURCES = Banshee.SoundMenu.addin.xml
 
 if ENABLE_SOUNDMENU
+if ENABLE_SOUNDMENU
 include $(top_srcdir)/build/build.mk
+else
+include $(top_srcdir)/build/build.dist.mk
+endif
 else
 include $(top_srcdir)/build/build.dist.mk
 endif

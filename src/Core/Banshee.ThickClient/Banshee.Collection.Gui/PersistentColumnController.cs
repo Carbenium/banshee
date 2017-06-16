@@ -181,7 +181,7 @@ namespace Banshee.Collection.Gui
             T result;
 
             if (source_ns != parent_source_ns) {
-                if (!ConfigurationClient.Instance.TryGet<T> (conf_ns, key, out result) && val != null &&
+                if (!ConfigurationClient.Instance.TryGet (conf_ns, key, out result) && val != null &&
                     val.Equals (ConfigurationClient.Instance.Get<T> (parent_source_ns + ns, key, default (T)))) {
                     conf_ns = null;
                 }

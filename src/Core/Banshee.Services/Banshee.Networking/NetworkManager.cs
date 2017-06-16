@@ -37,7 +37,7 @@ namespace Banshee.Networking
     public class NetworkManager : INetworkAvailabilityService
     {
         [Interface ("org.freedesktop.NetworkManager")]
-        private interface INetworkManager
+        internal interface INetworkManager
         {
             event StateChangeHandler StateChange;
             event StateChangeHandler StateChanged;

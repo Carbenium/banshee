@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Mono.Unix;
@@ -47,17 +48,15 @@ using Banshee.Hardware;
 
 namespace Banshee.Dap.Mtp
 {
-    public class MtpSource : DapSource
+    public class MtpSource : PotentialSource
     {
-        protected override object InternalLock {
-            get { return mtp_device; }
-        }
+        private RawMtpDevice raw_device;
         private MtpDevice mtp_device;
 
         //private bool supports_jpegs = false;
         private Dictionary<long, Track> track_map;
 
-        private Dictionary<string, Album> album_cache = new Dictionary<string, Album> ();
+        private Dictionary<string, Tuple<Album, Folder>> album_cache = new Dictionary<string, Tuple<Album, Folder>> ();
 
         private bool supports_jpegs = false;
         private bool can_sync_albumart = NeverSyncAlbumArtSchema.Get () == false;
@@ -91,32 +90,34 @@ namespace Banshee.Dap.Mtp
                 throw new InvalidDeviceException ();
             }
 
-            IVolume volume = device as IVolume;
-            foreach (var v in devices) {
-                // Using the HAL hardware backend, HAL says the busnum is 2, but libmtp says it's 0, so disabling that check
-                //if (v.BusNumber == busnum && v.DeviceNumber == devnum) {
-                if (v.DeviceNumber == devnum) {
-                    // If gvfs-gphoto has it mounted, unmount it
-                    if (volume != null && volume.IsMounted && force) {
-                        Log.DebugFormat ("MtpSource: attempting to unmount {0}", volume.Name);
-                        volume.Unmount ();
-                    }
+            raw_device = devices.FirstOrDefault (x => x.DeviceNumber == devnum);
 
-                    if (volume != null && volume.IsMounted) {
-                        throw new InvalidDeviceStateException ();
-                    }
-
-                    mtp_device = MtpDevice.Connect (v);
-
-                    if (mtp_device == null) {
-                        Log.DebugFormat ("Failed to connect to mtp device {0}", device.Name);
-                        throw new InvalidDeviceStateException ();
-                    }
-                }
+            if (raw_device == null) {
+                throw new InvalidDeviceException ();
             }
 
+            Initialize ();
+        }
+
+        protected override bool Claim()
+        {
+            IDevice device = Device;
+            IVolume volume = device as IVolume;
+
+            if (volume != null && volume.IsMounted) {
+                Log.DebugFormat ("MtpSource: attempting to unmount {0}", volume.Name);
+                volume.Unmount ();
+            }
+
+            if (volume != null && volume.IsMounted) {
+                throw new InvalidDeviceStateException ();
+            }
+
+            mtp_device = MtpDevice.Connect (raw_device);
+
             if (mtp_device == null) {
-                throw new InvalidDeviceException ();
+                Log.DebugFormat ("Failed to connect to mtp device {0}", device.Name);
+                throw new InvalidDeviceStateException ();
             }
 
             // libmtp sometimes returns '?????'. I assume this is if the device does
@@ -126,7 +127,7 @@ namespace Banshee.Dap.Mtp
             else
                 Name = mtp_device.Name;
 
-            Initialize ();
+            Initialize (true);
 
             List<string> mimetypes = new List<string> ();
             foreach (FileType format in mtp_device.GetFileTypes ()) {
@@ -141,6 +142,7 @@ namespace Banshee.Dap.Mtp
             }
             AcceptableMimeTypes = mimetypes.ToArray ();
 
+            AddDapProperty (Catalog.GetString ("Required Folder Depth"), 2.ToString());
             AddDapProperty (Catalog.GetString ("Serial number"), mtp_device.SerialNumber);
             AddDapProperty (Catalog.GetString ("Version"), mtp_device.Version);
             try {
@@ -148,10 +150,14 @@ namespace Banshee.Dap.Mtp
             } catch (LibMtpException e) {
                 Log.Warning ("Unable to get battery level from MTP device", e);
             }
+
+            return true;
         }
 
         protected override void LoadFromDevice ()
         {
+            if (null == mtp_device) return;
+
             // Translators: {0} is the file currently being loaded
             // and {1} is the total # of files that will be loaded.
             string format = Catalog.GetString ("Reading File - {0} of {1}");
@@ -208,7 +214,6 @@ namespace Banshee.Dap.Mtp
                         for (int current = 0, total = playlists.Count; current < total; ++current) {
                             MTP.Playlist playlist = playlists [current];
                             SetStatus (String.Format (format, current + 1, total), false);
-                            Track mtp_track = files [current];
                             PlaylistSource pl_src = new PlaylistSource (playlist.Name, this);
                             pl_src.Save ();
                             // TODO a transaction would make sense here (when the threading issue is fixed)
@@ -274,7 +279,7 @@ namespace Banshee.Dap.Mtp
 
 
         public override bool CanRename {
-            get { return !(IsAdding || IsDeleting); }
+            get { return IsConnected && !(IsAdding || IsDeleting); }
         }
 
         private SafeUri empty_file = new SafeUri (Paths.Combine (Paths.ApplicationCache, "mtp.mp3"));
@@ -339,8 +344,16 @@ namespace Banshee.Dap.Mtp
             }
         }
 
+        public override bool CanImport {
+            get { return IsConnected; }
+        }
+
         public override bool IsReadOnly {
-            get { return false; }
+            get { return !IsConnected; }
+        }
+
+        public override bool IsConnected {
+            get { return mtp_device != null; }
         }
 
         protected override void AddTrackToDevice (DatabaseTrackInfo track, SafeUri fromUri)
@@ -351,11 +364,12 @@ namespace Banshee.Dap.Mtp
             lock (mtp_device) {
                 Track mtp_track = TrackInfoToMtpTrack (track, fromUri);
                 bool video = track.HasAttribute (TrackMediaAttributes.VideoStream);
-                mtp_device.UploadTrack (fromUri.LocalPath, mtp_track, GetFolderForTrack (track), OnUploadProgress);
+                Folder folder = GetFolderForTrack (track);
+                mtp_device.UploadTrack (fromUri.LocalPath, mtp_track, folder, OnUploadProgress);
 
                 // Add/update album art
                 if (!video) {
-                    string key = MakeAlbumKey (track.AlbumArtist, track.AlbumTitle);
+                    string key = MakeAlbumKey (track);
                     if (!album_cache.ContainsKey (key)) {
                         // LIBMTP 1.0.3 BUG WORKAROUND
                         // In libmtp.c the 'LIBMTP_Create_New_Album' function invokes 'create_new_abstract_list'.
@@ -390,17 +404,17 @@ namespace Banshee.Dap.Mtp
                                 if (bytes != null) {
                                     ArtworkManager.DisposePixbuf (pic);
                                     album.Save (bytes, width, height);
-                                    album_cache [key] = album;
+                                    album_cache [key] = Tuple.Create(album, folder);
                                 }
                             } catch (Exception e) {
                                 Log.Debug ("Failed to create MTP Album", e.Message);
                             }
                         } else {
                             album.Save ();
-                            album_cache[key] = album;
+                            album_cache[key] = Tuple.Create(album, folder);
                         }
                     } else {
-                        Album album = album_cache[key];
+                        Album album = album_cache[key].Item1;
                         album.AddTrack (mtp_track);
                         album.Save ();
                     }
@@ -418,10 +432,61 @@ namespace Banshee.Dap.Mtp
             if (track.HasAttribute (TrackMediaAttributes.VideoStream)) {
                 return mtp_device.VideoFolder;
             } else if (track.HasAttribute (TrackMediaAttributes.Podcast)) {
-                return mtp_device.PodcastFolder;
+                return GetPodcastFolder (track);
             } else {
-                return mtp_device.MusicFolder;
+                return GetAlbumFolder (track);
             }
+        }
+
+        private Folder GetPodcastFolder (TrackInfo track)
+        {
+            Folder root, target;
+            if (null == mtp_device.PodcastFolder) {
+                root = mtp_device.GetRootFolders ().Find (x => x.Name == "Podcasts");
+
+                if (null == root) {
+                    root = mtp_device.MusicFolder.AddChild ("Podcasts");
+                }
+            } else {
+                root = mtp_device.PodcastFolder;
+            }
+
+            List<Folder> podcast_albums = root.GetChildren ();
+            target = podcast_albums.Find (x => x.Name == track.DisplayAlbumTitle);
+
+            if (null == target) {
+                target = root.AddChild (track.DisplayAlbumTitle);
+            }
+
+            return target;
+        }
+
+        private Folder GetAlbumFolder (TrackInfo track)
+        {
+            string artist = FileSystem.Safe(track.DisplayAlbumArtistName);
+            string album = FileSystem.Safe(track.DisplayAlbumTitle);
+            string key = MakeAlbumKey (track);
+
+            if (album_cache.ContainsKey (key)) {
+                return album_cache [key].Item2;
+            }
+
+            Folder root = mtp_device.MusicFolder;
+            Folder tmp = root.GetChildren ().Find (x => FileSystem.EqualsNoCase(artist, x.Name));
+            Folder target;
+
+            if (null == tmp) {
+                target = root.AddChild (artist).AddChild (album);
+            }
+            else {
+                target = tmp.GetChildren ().Find (x => FileSystem.EqualsNoCase(album, x.Name));
+
+                if (null == target) {
+                    target = tmp.AddChild (album);
+                }
+            }
+
+            return target;
         }
 
         private int OnUploadProgress (ulong sent, ulong total, IntPtr data)
@@ -440,9 +505,9 @@ namespace Banshee.Dap.Mtp
                 mtp_device.Remove (mtp_track);
 
                 // Remove track from album, and remove album from device if it no longer has tracks
-                string key = MakeAlbumKey (track.ArtistName, track.AlbumTitle);
+                string key = MakeAlbumKey (track);
                 if (album_cache.ContainsKey (key)) {
-                    Album album = album_cache[key];
+                    Album album = album_cache[key].Item1;
                     album.RemoveTrack (mtp_track);
                     if (album.Count == 0) {
                         album.Remove ();
@@ -468,7 +533,6 @@ namespace Banshee.Dap.Mtp
                 return;
 
             disposed = true;
-            base.Dispose ();
 
             if (mtp_device != null) {
                 lock (mtp_device) {
@@ -477,11 +541,13 @@ namespace Banshee.Dap.Mtp
             }
 
             mtp_device = null;
+
+            base.Dispose ();
         }
 
-        private static string MakeAlbumKey (string album_artist, string album)
+        private static string MakeAlbumKey (TrackInfo track)
         {
-            return String.Format ("{0}_{1}", album_artist, album);
+            return track.DisplayAlbumArtistName + "_" + track.DisplayAlbumTitle;
         }
 
         public static readonly SchemaEntry<bool> NeverSyncAlbumArtSchema = new SchemaEntry<bool>(
