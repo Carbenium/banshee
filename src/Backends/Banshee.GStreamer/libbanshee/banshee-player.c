@@ -69,10 +69,6 @@ bp_destroy (BansheePlayer *player)
     if (player->cdda_device != NULL) {
         g_free (player->cdda_device);
     }
-
-    if (player->dvd_device != NULL) {
-        g_free (player->dvd_device);
-    }
     
     _bp_pipeline_destroy (player);
     _bp_missing_elements_destroy (player);

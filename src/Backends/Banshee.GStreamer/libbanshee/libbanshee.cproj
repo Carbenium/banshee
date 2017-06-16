@@ -42,7 +42,6 @@
     <Compile Include="banshee-player-replaygain.c" />
     <Compile Include="banshee-player-vis.c" />
     <Compile Include="banshee-bpmdetector.c" />
-    <Compile Include="banshee-player-dvd.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="banshee-player-private.h" />
@@ -55,7 +54,6 @@
     <None Include="banshee-player-equalizer.h" />
     <None Include="banshee-player-replaygain.h" />
     <None Include="banshee-player-vis.h" />
-    <None Include="banshee-player-dvd.h" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
