@@ -69,7 +69,6 @@ src/Core/Banshee.Services/Banshee.Library/LibrarySource.cs
 src/Core/Banshee.Services/Banshee.Library/MusicFileNamePattern.cs
 src/Core/Banshee.Services/Banshee.Library/MusicLibrarySource.cs
 src/Core/Banshee.Services/Banshee.Library/ThreadPoolImportSource.cs
-src/Core/Banshee.Services/Banshee.Library/VideoLibrarySource.cs
 src/Core/Banshee.Services/Banshee.MediaEngine/PlayerEngineService.cs
 src/Core/Banshee.Services/Banshee.MediaEngine/TranscoderService.cs
 src/Core/Banshee.Services/Banshee.Metadata/SaveTrackMetadataJob.cs
@@ -182,7 +181,6 @@ src/Dap/Banshee.Dap/Banshee.Dap/MusicGroupSource.cs
 src/Dap/Banshee.Dap/Banshee.Dap/PodcastGroupSource.cs
 src/Dap/Banshee.Dap/Banshee.Dap/PotentialSource.cs
 src/Dap/Banshee.Dap/Banshee.Dap/RemovableSource.cs
-src/Dap/Banshee.Dap/Banshee.Dap/VideoGroupSource.cs
 src/Dap/Banshee.Dap.Karma/Banshee.Dap.Karma.addin.xml
 src/Dap/Banshee.Dap.MassStorage/Banshee.Dap.MassStorage.addin.xml
 src/Dap/Banshee.Dap.MassStorage/Banshee.Dap.MassStorage/AmazonMp3GroupSource.cs

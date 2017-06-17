@@ -70,7 +70,6 @@ namespace Banshee.Dap.Gui
             disk_bar.ValueFormatter = DapValueFormatter;
 
             disk_bar.AddSegmentRgb (Catalog.GetString ("Audio"), 0, 0x3465a4);
-            disk_bar.AddSegmentRgb (Catalog.GetString ("Video"), 0, 0x73d216);
             disk_bar.AddSegmentRgb (Catalog.GetString ("Other"), 0, 0xf57900);
             disk_bar.AddSegment (Catalog.GetString ("Free Space"), 0, disk_bar.RemainderColor, false);
 
@@ -139,14 +138,12 @@ namespace Banshee.Dap.Gui
 
             var bytes_used = source.BytesUsed;
             var bytes_music = source.BytesMusic;
-            var bytes_video = source.BytesVideo;
 
-            long data = bytes_used - bytes_music - bytes_video;
+            long data = bytes_used - bytes_music;
 
             disk_bar.UpdateSegment (0, bytes_music / cap);
-            disk_bar.UpdateSegment (1, bytes_video / cap);
-            disk_bar.UpdateSegment (2, data / cap);
-            disk_bar.UpdateSegment (3, (cap - bytes_used) / cap);
+            disk_bar.UpdateSegment (1, data / cap);
+            disk_bar.UpdateSegment (2, (cap - bytes_used) / cap);
         }
     }
 }

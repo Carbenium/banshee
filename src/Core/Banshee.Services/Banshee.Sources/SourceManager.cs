@@ -61,7 +61,6 @@ namespace Banshee.Sources
         private Source active_source;
         private Source default_source;
         private MusicLibrarySource music_library;
-        private VideoLibrarySource video_library;
 
         public event SourceEventHandler SourceUpdated;
         public event SourceAddedHandler SourceAdded;
@@ -80,7 +79,6 @@ namespace Banshee.Sources
             // TODO should add library sources here, but requires changing quite a few
             // things that depend on being loaded before the music library is added.
             //AddSource (music_library = new MusicLibrarySource (), true);
-            //AddSource (video_library = new VideoLibrarySource (), false);
 
             group_sources.Add (new GroupSource (Catalog.GetString ("Online Media"), 60));
             group_sources.Add (new GroupSource (Catalog.GetString ("Libraries"), 39));
@@ -116,7 +114,6 @@ namespace Banshee.Sources
                 active_source = null;
                 default_source = null;
                 music_library = null;
-                video_library = null;
             }
         }
 
@@ -178,8 +175,6 @@ namespace Banshee.Sources
 
             if (source is MusicLibrarySource) {
                 music_library = source as MusicLibrarySource;
-            } else if (source is VideoLibrarySource) {
-                video_library = source as VideoLibrarySource;
             }
 
             SourceAdded.SafeInvoke (new SourceAddedArgs () {
@@ -363,10 +358,6 @@ namespace Banshee.Sources
 
         public MusicLibrarySource MusicLibrary {
             get { return music_library; }
-        }
-
-        public VideoLibrarySource VideoLibrary {
-            get { return video_library; }
         }
 
         public Source ActiveSource {

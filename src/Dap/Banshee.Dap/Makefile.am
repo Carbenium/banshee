@@ -24,8 +24,7 @@ SOURCES =  \
 	Banshee.Dap/PodcastGroupSource.cs \
 	Banshee.Dap/PotentialSource.cs \
 	Banshee.Dap/RemovableSource.cs \
-	Banshee.Dap/SyncPlaylist.cs \
-	Banshee.Dap/VideoGroupSource.cs
+	Banshee.Dap/SyncPlaylist.cs
 
 RESOURCES =  \
 	Banshee.Dap.addin.xml \

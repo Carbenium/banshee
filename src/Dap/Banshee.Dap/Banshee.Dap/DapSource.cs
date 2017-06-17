@@ -75,11 +75,6 @@ namespace Banshee.Dap
             get { return music_group_source; }
         }
 
-        private MediaGroupSource video_group_source;
-        protected MediaGroupSource VideoGroupSource {
-            get { return video_group_source; }
-        }
-
         private MediaGroupSource podcast_group_source;
         protected MediaGroupSource PodcastGroupSource {
             get { return podcast_group_source; }
@@ -222,11 +217,6 @@ namespace Banshee.Dap
             AddChildSource (music_group_source = music_group_source ?? new MusicGroupSource (this));
             // We want the group sources to be on top of the list, with Music first
             music_group_source.Order = -30;
-
-            if (SupportsVideo && null == video_group_source) {
-                video_group_source = new VideoGroupSource (this);
-                video_group_source.Order = -20;
-            }
 
             if (SupportsPodcasts && null == podcast_group_source) {
                 podcast_group_source = new PodcastGroupSource (this);
@@ -534,17 +524,13 @@ namespace Banshee.Dap
             get { return acceptable_mimetypes; }
             protected set { acceptable_mimetypes = value; }
         }
-
-        public long BytesVideo {
-            get { return VideoGroupSource == null ? 0 : VideoGroupSource.BytesUsed; }
-        }
-
+        
         public long BytesMusic {
             get { return MusicGroupSource == null ? 0 : MusicGroupSource.BytesUsed; }
         }
 
         public long BytesData {
-            get { return BytesUsed - BytesVideo - BytesMusic; }
+            get { return BytesUsed  - BytesMusic; }
         }
 
         public long BytesReserved {

@@ -54,7 +54,7 @@ namespace Banshee.Database
         // NOTE: Whenever there is a change in ANY of the database schema,
         //       this version MUST be incremented and a migration method
         //       MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 45;
+        protected const int CURRENT_VERSION = 46;
         protected const int CURRENT_METADATA_VERSION = 8;
 
 #region Migration Driver
@@ -961,6 +961,8 @@ namespace Banshee.Database
             return true;
         }
 #endregion
+        
+#region Version 45
 
         [DatabaseVersion (45)]
         private bool Migrate_45 ()
@@ -968,6 +970,15 @@ namespace Banshee.Database
             connection.AddFunction<FixUriEncodingFunction> ();
             Execute ("UPDATE CoreTracks SET Uri = BANSHEE_FIX_URI_ENCODING (Uri) WHERE Uri LIKE 'file:///%'");
             connection.RemoveFunction<FixUriEncodingFunction> ();
+            return true;
+        }
+        
+#endregion
+
+        [DatabaseVersion(46)]
+        private bool Migratie_46()
+        {
+            try { Execute("DELETE FROM CorePrimarySources WHERE StringID = 'VideoLibrarySource-VideoLibrary'"); } catch {}
             return true;
         }
 
@@ -1378,7 +1389,7 @@ namespace Banshee.Database
 
         private void OnSourceAdded (SourceAddedArgs args)
         {
-            if (ServiceManager.SourceManager.MusicLibrary != null && ServiceManager.SourceManager.VideoLibrary != null) {
+            if (ServiceManager.SourceManager.MusicLibrary != null) {
                 ServiceManager.SourceManager.SourceAdded -= OnSourceAdded;
                 RefreshMetadataDelayed ();
             }

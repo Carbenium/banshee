@@ -56,7 +56,6 @@ namespace Banshee.Gui.Dialogs
             // library-specific too
             Hyena.Gui.GtkUtilities.SetChooserShortcuts (chooser,
                 ServiceManager.SourceManager.MusicLibrary.BaseDirectory,
-                ServiceManager.SourceManager.VideoLibrary.BaseDirectory,
                 GetPhotosFolder ()
             );
 

@@ -96,8 +96,7 @@ namespace Banshee.PlayQueue
         private bool IsQueueable (Source source)
         {
             return source != null && (
-                source is MusicLibrarySource || source.Parent is MusicLibrarySource ||
-                source is VideoLibrarySource || source.Parent is VideoLibrarySource);
+                source is MusicLibrarySource || source.Parent is MusicLibrarySource);
         }
 
         private TreeIter FindSource (string name, TreeIter iter)

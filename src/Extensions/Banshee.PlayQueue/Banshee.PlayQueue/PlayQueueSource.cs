@@ -102,8 +102,6 @@ namespace Banshee.PlayQueue
             // TODO listen to all primary sources, and handle transient primary sources
             ServiceManager.SourceManager.MusicLibrary.TracksChanged += HandleTracksChanged;
             ServiceManager.SourceManager.MusicLibrary.TracksDeleted += HandleTracksDeleted;
-            ServiceManager.SourceManager.VideoLibrary.TracksChanged += HandleTracksChanged;
-            ServiceManager.SourceManager.VideoLibrary.TracksDeleted += HandleTracksDeleted;
 
             populate_from = ServiceManager.SourceManager.Sources.FirstOrDefault (
                 source => source.Name == populate_from_name) as DatabaseSource;

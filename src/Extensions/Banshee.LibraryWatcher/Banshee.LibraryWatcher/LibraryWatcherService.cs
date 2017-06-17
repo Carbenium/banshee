@@ -70,7 +70,6 @@ namespace Banshee.LibraryWatcher
             }
             */
             AddLibrary (ServiceManager.SourceManager.MusicLibrary);
-            AddLibrary (ServiceManager.SourceManager.VideoLibrary);
 
             if (ServiceManager.SourceManager.MusicLibrary.Count == 0) {
                 new Banshee.Collection.RescanPipeline (ServiceManager.SourceManager.MusicLibrary, tracks => {
@@ -80,21 +79,6 @@ namespace Banshee.LibraryWatcher
                         // singular form unused b/c we know it's > 1, but we still need GetPlural
                         "Library Watcher extension just detected an action that would trigger the removal of one track from your music library.",
                         "Library Watcher extension just detected an action that would trigger the removal of {0} tracks from your music library.",
-                        tracks),
-                        tracks);
-
-                    return TrackActions.ConfirmRemove (msg);
-                });
-            }
-
-            if (ServiceManager.SourceManager.VideoLibrary.Count == 0) {
-                new Banshee.Collection.RescanPipeline (ServiceManager.SourceManager.VideoLibrary, tracks => {
-
-                    string msg = String.Format (
-                        Catalog.GetPluralString (
-                        // singular form unused b/c we know it's > 1, but we still need GetPlural
-                        "Library Watcher extension just detected an action that would trigger the removal of one track from your video library.",
-                        "Library Watcher extension just detected an action that would trigger the removal of {0} tracks from your video library.",
                         tracks),
                         tracks);
 

@@ -90,7 +90,6 @@
     <Compile Include="Banshee.Dap.Gui\DapPropertiesDialog.cs" />
     <Compile Include="Banshee.Dap\InvalidDeviceException.cs" />
     <Compile Include="Banshee.Dap\MediaGroupSource.cs" />
-    <Compile Include="Banshee.Dap\VideoGroupSource.cs" />
     <Compile Include="Banshee.Dap\MusicGroupSource.cs" />
     <Compile Include="Banshee.Dap.Gui\DapInfoBar.cs" />
     <Compile Include="Banshee.Dap.Gui\DapPropertiesDisplay.cs" />

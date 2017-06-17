@@ -292,10 +292,6 @@ namespace Banshee.Dap
                     //return a.Order.CompareTo (b.Order);
                 //});
 
-            if (!dap.SupportsVideo && library == ServiceManager.SourceManager.VideoLibrary) {
-                return null;
-            }
-
             if (!dap.SupportsPodcasts && library.UniqueId == "PodcastSource-PodcastLibrary") {
                 return null;
             }

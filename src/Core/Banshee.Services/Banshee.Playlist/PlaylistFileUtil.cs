@@ -230,7 +230,7 @@ namespace Banshee.Playlist
                             StreamTagger.TrackInfoMerge (track, uri1);
 
                             if (track.HasAttribute (TrackMediaAttributes.VideoStream))
-                                source = ServiceManager.SourceManager.VideoLibrary;
+                                Log.Information("Ignoring playlist containing videos");
                             else
                                 source = ServiceManager.SourceManager.MusicLibrary;
                         }

@@ -56,15 +56,12 @@ namespace Banshee.Library
             ForceCopy = force_copy;
         }
 
-        protected override ErrorSource ErrorSource {
-            get { return ServiceManager.SourceManager.MusicLibrary.ErrorSource; }
-        }
+        protected override ErrorSource ErrorSource => ServiceManager.SourceManager.MusicLibrary.ErrorSource;
 
         protected override long [] PrimarySourceIds {
             get {
                 if (base.PrimarySourceIds == null) {
-                    base.PrimarySourceIds = new long [] {
-                        ServiceManager.SourceManager.VideoLibrary.DbId,
+                    base.PrimarySourceIds = new[] {
                         ServiceManager.SourceManager.MusicLibrary.DbId
                     };
                 }
@@ -73,21 +70,15 @@ namespace Banshee.Library
             }
         }
 
-        protected override string BaseDirectory {
-            get { return ServiceManager.SourceManager.MusicLibrary.BaseDirectory; }
-        }
+        protected override string BaseDirectory => ServiceManager.SourceManager.MusicLibrary.BaseDirectory;
 
         protected static PrimarySource DefaultTrackPrimarySourceChooser (DatabaseTrackInfo track)
         {
-            if ((track.MediaAttributes & TrackMediaAttributes.VideoStream) != 0) {
-                return ServiceManager.SourceManager.VideoLibrary;
-            } else {
-                return ServiceManager.SourceManager.MusicLibrary;
-            }
+            if ((track.MediaAttributes & TrackMediaAttributes.VideoStream) != 0)
+                return null;
+            return ServiceManager.SourceManager.MusicLibrary;
         }
 
-        string IService.ServiceName {
-            get { return "LibraryImportManager"; }
-        }
+        string IService.ServiceName => "LibraryImportManager";
     }
 }
