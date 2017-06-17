@@ -95,7 +95,6 @@ namespace Beroe
             ServiceManager.Get<CollectionIndexerService> ().ShutdownHandler = DBusConnection.QuitMainLoop;
 
             ServiceManager.SourceManager.AddSource (new Banshee.Library.MusicLibrarySource ());
-            ServiceManager.SourceManager.AddSource (new Banshee.Library.VideoLibrarySource ());
 
             DBusConnection.RunMainLoop ();
 
