@@ -27,9 +27,6 @@
 //
 
 using System;
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
 using DBus;
 
 namespace Banshee.Networking
@@ -38,11 +35,13 @@ namespace Banshee.Networking
     {
         public delegate void StateChangeInternalHandler (uint code, object [] foo);
 
+#pragma warning disable 0649
         internal struct StatusStruct
         {
             public uint Code;
             public string [] Foo;
         }
+#pragma warning restore 0649
 
         [Interface ("org.wicd.daemon")]
         internal interface IWicd

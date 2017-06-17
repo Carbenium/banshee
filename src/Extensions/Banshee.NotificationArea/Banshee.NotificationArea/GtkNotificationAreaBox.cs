@@ -38,29 +38,29 @@ namespace Banshee.NotificationArea
 {
     public class GtkNotificationAreaBox : StatusIcon, INotificationAreaBox
     {
+#pragma warning disable 0067
         public event EventHandler Disconnected;
+#pragma warning restore 0067
         public event EventHandler Activated;
         public event PopupMenuHandler PopupMenuEvent;
 
-        private TrackInfoPopup popup;
-        private bool can_show_popup = false;
-        private bool cursor_over_trayicon = false;
-        private bool hide_delay_started = false;
+        private TrackInfoPopup _popup;
+        private bool _canShowPopup;
+        private bool _cursorOverTrayicon;
+        private bool _hideDelayStarted;
         
-        public Widget Widget {
-            get { return null; }
-        }
+        public Widget Widget => null;
 
         public GtkNotificationAreaBox (BaseClientWindow window)
         {
             Visible = false;
             IconName = (IconThemeUtils.HasIcon ("banshee-panel")) ?
-                "banshee-panel" : Banshee.ServiceStack.Application.IconName;
+                "banshee-panel" : ServiceStack.Application.IconName;
 
             HasTooltip = true;
-            base.Activate += delegate {OnActivated ();};
-            base.PopupMenu += delegate {OnPopupMenuEvent ();};
-            popup = new TrackInfoPopup ();
+            Activate += delegate {OnActivated ();};
+            PopupMenu += delegate {OnPopupMenuEvent ();};
+            _popup = new TrackInfoPopup ();
         }
 
         public void PositionMenu (Menu menu, out int x, out int y, out bool push_in)
@@ -70,42 +70,42 @@ namespace Banshee.NotificationArea
 
         private void HidePopup ()
         {
-            if (popup == null) {
+            if (_popup == null) {
                 return;
             }
 
-            popup.Hide ();
-            popup.EnterNotifyEvent -= OnPopupEnterNotify;
-            popup.LeaveNotifyEvent -= OnPopupLeaveNotify;
-            popup.Destroy ();
-            popup.Dispose ();
-            popup = null;
+            _popup.Hide ();
+            _popup.EnterNotifyEvent -= OnPopupEnterNotify;
+            _popup.LeaveNotifyEvent -= OnPopupLeaveNotify;
+            _popup.Destroy ();
+            _popup.Dispose ();
+            _popup = null;
         }
 
         private void ShowPopup ()
         {
-            if (popup != null) {
+            if (_popup != null) {
                 return;
             }
 
-            popup = new TrackInfoPopup ();
-            popup.EnterNotifyEvent += OnPopupEnterNotify;
-            popup.LeaveNotifyEvent += OnPopupLeaveNotify;
+            _popup = new TrackInfoPopup ();
+            _popup.EnterNotifyEvent += OnPopupEnterNotify;
+            _popup.LeaveNotifyEvent += OnPopupLeaveNotify;
 
             PositionPopup ();
 
-            popup.Show ();
+            _popup.Show ();
         }
 
         private void OnPopupEnterNotify (object o, EnterNotifyEventArgs args)
         {
-            hide_delay_started = false;
+            _hideDelayStarted = false;
         }
 
         private void OnPopupLeaveNotify (object o, LeaveNotifyEventArgs args)
         {
             Gdk.Rectangle rect;
-            if (!popup.Intersect (new Gdk.Rectangle ((int)args.Event.X, (int)args.Event.Y, 1, 1), out rect)) {
+            if (!_popup.Intersect (new Gdk.Rectangle ((int)args.Event.X, (int)args.Event.Y, 1, 1), out rect)) {
                 OnLeaveNotifyEvent (o, args);
             }
         }
@@ -119,38 +119,38 @@ namespace Banshee.NotificationArea
 
             GetGeometry (out screen, out area, out orientation);
 
-            Gtk.Requisition popup_min_size, popup_natural_size;
-            popup.GetPreferredSize (out popup_min_size, out popup_natural_size);
+            Requisition popupMinSize, popupNaturalSize;
+            _popup.GetPreferredSize (out popupMinSize, out popupNaturalSize);
 
-            bool on_bottom = area.Bottom + popup_natural_size.Height >= screen.Height;
+            bool onBottom = area.Bottom + popupNaturalSize.Height >= screen.Height;
 
-            y = on_bottom
-                ? area.Top - popup_natural_size.Height - 5
+            y = onBottom
+                ? area.Top - popupNaturalSize.Height - 5
                 : area.Bottom + 5;
 
             int monitor = screen.GetMonitorAtPoint (area.Left, y);
-            var monitor_rect = screen.GetMonitorGeometry(monitor);
+            var monitorRect = screen.GetMonitorGeometry(monitor);
 
-            x = area.Left - (popup_natural_size.Width / 2) + (area.Width / 2);
+            x = area.Left - (popupNaturalSize.Width / 2) + (area.Width / 2);
 
-            if (x + popup_natural_size.Width >= monitor_rect.Right - 5) {
-                x = monitor_rect.Right - popup_natural_size.Width - 5;
-            } else if (x < monitor_rect.Left + 5) {
-                x = monitor_rect.Left + 5;
+            if (x + popupNaturalSize.Width >= monitorRect.Right - 5) {
+                x = monitorRect.Right - popupNaturalSize.Width - 5;
+            } else if (x < monitorRect.Left + 5) {
+                x = monitorRect.Left + 5;
             }
 
-            popup.Move (x, y);
+            _popup.Move (x, y);
         }
 
         private void OnEnterNotifyEvent (object o, EnterNotifyEventArgs args)
         {
-            hide_delay_started = false;
-            cursor_over_trayicon = true;
-            if (can_show_popup) {
+            _hideDelayStarted = false;
+            _cursorOverTrayicon = true;
+            if (_canShowPopup) {
                 // only show the popup when the cursor is still over the
                 // tray icon after 500ms
                 GLib.Timeout.Add (500, delegate {
-                    if (cursor_over_trayicon && can_show_popup) {
+                    if (_cursorOverTrayicon && _canShowPopup) {
                         ShowPopup ();
                     }
                     return false;
@@ -161,12 +161,12 @@ namespace Banshee.NotificationArea
         private void OnLeaveNotifyEvent (object o, LeaveNotifyEventArgs args)
         {
             // Give the user half a second to move the mouse cursor to the popup.
-            if (!hide_delay_started) {
-                hide_delay_started = true;
-                cursor_over_trayicon = false;
+            if (!_hideDelayStarted) {
+                _hideDelayStarted = true;
+                _cursorOverTrayicon = false;
                 GLib.Timeout.Add (500, delegate {
-                    if (hide_delay_started) {
-                        hide_delay_started = false;
+                    if (_hideDelayStarted) {
+                        _hideDelayStarted = false;
                         HidePopup ();
                     }
                     return false;
@@ -178,14 +178,14 @@ namespace Banshee.NotificationArea
         {
             switch (args.Event) {
                 case PlayerEvent.StartOfStream:
-                    can_show_popup = false;
+                    _canShowPopup = false;
                     break;
 
                 case PlayerEvent.EndOfStream:
                     // only hide the popup when we don't play again after 250ms
                     GLib.Timeout.Add (250, delegate {
                         if (ServiceManager.PlayerEngine.CurrentState != PlayerState.Playing) {
-                            can_show_popup = false;
+                            _canShowPopup = false;
                             HidePopup ();
                          }
                          return false;
@@ -199,7 +199,7 @@ namespace Banshee.NotificationArea
             switch (evnt.Direction) {
                 case Gdk.ScrollDirection.Up:
                     if ((evnt.State & Gdk.ModifierType.ControlMask) != 0) {
-                        ServiceManager.PlayerEngine.Volume += (ushort)PlayerEngine.VolumeDelta;
+                        ServiceManager.PlayerEngine.Volume += PlayerEngine.VolumeDelta;
                     } else if((evnt.State & Gdk.ModifierType.ShiftMask) != 0) {
                         ServiceManager.PlayerEngine.Position += PlayerEngine.SkipDelta;
                     } else {
@@ -209,10 +209,10 @@ namespace Banshee.NotificationArea
 
                 case Gdk.ScrollDirection.Down:
                     if ((evnt.State & Gdk.ModifierType.ControlMask) != 0) {
-                        if (ServiceManager.PlayerEngine.Volume < (ushort)PlayerEngine.VolumeDelta) {
+                        if (ServiceManager.PlayerEngine.Volume < PlayerEngine.VolumeDelta) {
                             ServiceManager.PlayerEngine.Volume = 0;
                         } else {
-                            ServiceManager.PlayerEngine.Volume -= (ushort)PlayerEngine.VolumeDelta;
+                            ServiceManager.PlayerEngine.Volume -= PlayerEngine.VolumeDelta;
                         }
                     } else if((evnt.State & Gdk.ModifierType.ShiftMask) != 0) {
                         ServiceManager.PlayerEngine.Position -= PlayerEngine.SkipDelta;
@@ -253,9 +253,9 @@ namespace Banshee.NotificationArea
         }
 
 
-        protected override bool OnQueryTooltip (int x, int y, bool keyboard_mode, Tooltip tooltip)
+        protected override bool OnQueryTooltip (int x, int y, bool keyboardMode, Tooltip tooltip)
         {
-            tooltip.Custom = popup;
+            tooltip.Custom = _popup;
             return true;
         }
 

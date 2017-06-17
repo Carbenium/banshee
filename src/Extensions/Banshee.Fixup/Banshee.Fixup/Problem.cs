@@ -68,11 +68,13 @@ namespace Banshee.Fixup
         [DatabaseColumn]
         public string SolutionValue { get; set; }
 
+#pragma warning disable 0649
         [DatabaseColumn ("SolutionOptions")]
         private string options_field;
 
         [DatabaseColumn ("ObjectIds")]
         internal string object_ids_field;
+#pragma warning restore 0649
 
         [DatabaseColumn]
         public int ObjectCount { get; private set; }

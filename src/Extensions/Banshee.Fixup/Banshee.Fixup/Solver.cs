@@ -54,7 +54,9 @@ namespace Banshee.Fixup
         }
 
         // Total hack to work make unit tests work
+#pragma warning disable 0649
         internal static bool EnableUnitTests;
+#pragma warning restore 0649
 
         public string Id {
             get { return id; }

@@ -26,9 +26,6 @@
 
 using System;
 
-using Mono.Unix;
-
-using Hyena.Data;
 using Hyena.Data.Sqlite;
 
 using Banshee.Database;
@@ -51,10 +48,8 @@ namespace Banshee.Collection.Database
         }
 
         [DatabaseColumn("ArtistID", Constraints = DatabaseColumnConstraints.PrimaryKey)]
-        private long dbid;
-        public long DbId {
-            get { return dbid; }
-        }
+        public long DbId
+        { get; set; }
 
         [DatabaseColumn("Name")]
         public override string Name {

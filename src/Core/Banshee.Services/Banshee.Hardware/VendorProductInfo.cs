@@ -87,7 +87,7 @@ namespace Banshee.Hardware
         }
 
         public int VendorProductId {
-            get { return (int)(vendor_id << 16) | product_id; }
+            get => (vendor_id << 16) | (ushort)product_id;
             set {
                 vendor_id = (short)(value >> 16);
                 product_id = (short)(value & 0xffff);

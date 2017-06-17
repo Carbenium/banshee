@@ -47,12 +47,11 @@ using Banshee.MediaEngine;
 using Banshee.IO;
 
 using Hyena;
-using Hyena.Gui;
 using Hyena.Widgets;
 
 namespace Banshee.NotificationArea
 {
-    public class NotificationAreaService : IExtensionService
+    internal class NotificationAreaService : IExtensionService
     {
         private INotificationAreaBox notif_area;
         private GtkElementsService elements_service;

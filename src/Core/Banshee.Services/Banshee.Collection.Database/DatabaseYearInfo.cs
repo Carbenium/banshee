@@ -24,11 +24,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-
-using Mono.Unix;
-
-using Hyena.Data;
 using Hyena.Data.Sqlite;
 
 using Banshee.Database;
@@ -58,9 +53,6 @@ namespace Banshee.Collection.Database
         }
 
         [DatabaseColumn ("Year")]
-        private int year;
-        public override int Year {
-            get { return year; }
-        }
+        public override int Year { get; set; }
     }
 }

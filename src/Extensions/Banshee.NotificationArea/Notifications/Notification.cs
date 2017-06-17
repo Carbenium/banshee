@@ -26,14 +26,10 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 
-using GLib;
 using Gdk;
 using Gtk;
 
 using DBus;
-using org.freedesktop;
-using org.freedesktop.DBus;
-
 using EventHandler = System.EventHandler;
 using EventArgs = System.EventArgs;
 

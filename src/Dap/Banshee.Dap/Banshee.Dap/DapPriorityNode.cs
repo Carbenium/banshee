@@ -32,17 +32,12 @@ namespace Banshee.Dap {
 
     public class DapPriorityNode : TypeExtensionNode {
 
+#pragma warning disable 0649
         [NodeAttribute]
         string priority;
+#pragma warning restore 0649
 
-        public int Priority {
-            get { return string.IsNullOrEmpty (priority) ? 0 : int.Parse (priority); }
-        }
-
-        public DapPriorityNode ()
-        {
-
-        }
+        public int Priority => string.IsNullOrEmpty (priority) ? 0 : int.Parse (priority);
     }
 }
 
