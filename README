@@ -24,7 +24,6 @@ acceptable; higher versions are fine.
 - Required
   * Mono                3.2.8
   * SQlite              3.4
-  * GStreamerSharp      0.99.0
   * GStreamer           1.0.0
   * Gtk#                2.99.1
   * GLib                2.22

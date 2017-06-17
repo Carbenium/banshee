@@ -77,7 +77,6 @@ AM_CONDITIONAL(HAVE_CLUTTER, false)
 
 dnl Media backends
 BANSHEE_CHECK_GSTREAMER
-BANSHEE_CHECK_GSTREAMERSHARP
 
 dnl DBus Sharp libraries
 BANSHEE_CHECK_DBUS_SHARP
@@ -296,7 +295,6 @@ src/Backends/Banshee.Gio/Makefile
 src/Backends/Banshee.Gnome/Makefile
 src/Backends/Banshee.GStreamer/Makefile
 src/Backends/Banshee.GStreamer/libbanshee/Makefile
-src/Backends/Banshee.GStreamerSharp/Makefile
 src/Backends/Banshee.Unix/Makefile
 src/Backends/Banshee.Osx/Makefile
 src/Backends/Banshee.Windows/Makefile
@@ -369,9 +367,7 @@ ${PACKAGE}-${VERSION}
     Gtk#:                  ${gtk_sharp_version}
 
   Media/Graphics:
-    GStreamer# backend:    ${enable_gst_sharp}
     GStreamer C backend:   ${enable_gst_native}
-    Clutter:               ${enable_clutter}
 
   Platform Support:
     UNIX Support:          ${enable_unix}
