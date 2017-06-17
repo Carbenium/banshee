@@ -1,13 +1,10 @@
 SUBDIRS = \
-	Banshee.AmazonMp3 \
-	Banshee.AmazonMp3.Store \
 	Banshee.Audiobook \
 	Banshee.BooScript \
 	Banshee.Bpm \
 	Banshee.CoverArt \
 	Banshee.Daap \
 	Banshee.Emusic \
-	Banshee.Emusic.Store \
 	Banshee.FileSystemQueue \
 	Banshee.InternetArchive \
 	Banshee.Fixup \
@@ -17,7 +14,6 @@ SUBDIRS = \
 	Banshee.LibraryWatcher \
 	Banshee.MiniMode \
 	Banshee.Mpris \
-	Banshee.MiroGuide \
 	Banshee.MultimediaKeys \
 	Banshee.NotificationArea \
 	Banshee.OpticalDisc \
@@ -32,7 +28,6 @@ SUBDIRS = \
 	Banshee.RemoteAudio \
 	Banshee.UbuntuOneMusicStore \
 	Banshee.UPnPClient \
-	Banshee.Wikipedia \
 	Banshee.YouTube
 
 MAINTAINERCLEANFILES = Makefile.in

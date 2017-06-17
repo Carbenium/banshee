@@ -158,8 +158,6 @@ src/Core/Banshee.ThickClient/Banshee.Sources.Gui/CompositeTrackSourceContents.cs
 src/Core/Banshee.ThickClient/Banshee.Sources.Gui/FilteredListSourceContents.cs
 src/Core/Banshee.ThickClient/Banshee.Sources.Gui/SourceView.cs
 src/Core/Banshee.ThickClient/Banshee.Sources.Gui/SourceView_DragAndDrop.cs
-src/Core/Banshee.WebBrowser/Banshee.WebBrowser/NavigationControl.cs
-src/Core/Banshee.WebBrowser/Banshee.WebSource/WebBrowserShell.cs
 src/Core/Banshee.Widgets/Banshee.Widgets/DiscUsageDisplay.cs
 src/Core/Banshee.Widgets/Banshee.Widgets/SearchEntry.cs
 src/Core/Banshee.Widgets/Banshee.Widgets/SeekSlider.cs
@@ -191,12 +189,6 @@ src/Dap/Banshee.Dap.MassStorage/Banshee.Dap.MassStorage/RockBoxDevice.cs
 src/Dap/Banshee.Dap.MassStorage/Banshee.Dap.MassStorage/WebOSDevice.cs
 src/Dap/Banshee.Dap.Mtp/Banshee.Dap.Mtp.addin.xml
 src/Dap/Banshee.Dap.Mtp/Banshee.Dap.Mtp/MtpSource.cs
-src/Extensions/Banshee.AmazonMp3/Banshee.AmazonMp3/AmazonDownloadManager.cs
-src/Extensions/Banshee.AmazonMp3/Banshee.AmazonMp3/AmazonMp3DownloaderService.cs
-src/Extensions/Banshee.AmazonMp3/Banshee.AmazonMp3/ImportSource.cs
-src/Extensions/Banshee.AmazonMp3.Store/Banshee.AmazonMp3.Store/StoreSource.cs
-src/Extensions/Banshee.AmazonMp3.Store/Banshee.AmazonMp3.Store/StoreSourcePreferences.cs
-src/Extensions/Banshee.AmazonMp3.Store/Banshee.AmazonMp3.Store/StoreWebBrowserShell.cs
 src/Extensions/Banshee.Audiobook/Banshee.Audiobook/Actions.cs
 src/Extensions/Banshee.Audiobook/Banshee.Audiobook.addin.xml
 src/Extensions/Banshee.Audiobook/Banshee.Audiobook/AudiobookFileNamePattern.cs
@@ -221,8 +213,6 @@ src/Extensions/Banshee.Daap/Banshee.Daap/DaapSource.cs
 src/Extensions/Banshee.Daap/Banshee.Daap/OpenRemoteServer.cs
 src/Extensions/Banshee.Emusic/Banshee.Emusic/DownloadManager/DownloadUserJob.cs
 src/Extensions/Banshee.Emusic/Banshee.Emusic/EmusicImport.cs
-src/Extensions/Banshee.Emusic.Store/Banshee.Emusic.Store/StoreSource.cs
-src/Extensions/Banshee.Emusic.Store/Banshee.Emusic.Store/StoreWebBrowserShell.cs
 src/Extensions/Banshee.FileSystemQueue/Banshee.FileSystemQueue.addin.xml
 src/Extensions/Banshee.FileSystemQueue/Banshee.FileSystemQueue/FileSystemQueueSource.cs
 src/Extensions/Banshee.Fixup/Banshee.Fixup/AlbumDuplicateSolver.cs
@@ -270,8 +260,6 @@ src/Extensions/Banshee.MediaPanel/Banshee.MediaPanel/SearchEntry.cs
 src/Extensions/Banshee.MiniMode/Banshee.MiniMode.addin.xml
 src/Extensions/Banshee.MiniMode/Banshee.MiniMode/MiniModeService.cs
 src/Extensions/Banshee.MiniMode/Banshee.MiniMode/MiniModeWindow.cs
-src/Extensions/Banshee.MiroGuide/Banshee.MiroGuide/MiroGuideSource.cs
-src/Extensions/Banshee.MiroGuide/Banshee.MiroGuide/View.cs
 src/Extensions/Banshee.MultimediaKeys/Banshee.MultimediaKeys.addin.xml
 src/Extensions/Banshee.NotificationArea/Banshee.NotificationArea.addin.xml
 src/Extensions/Banshee.NotificationArea/Banshee.NotificationArea/NotificationAreaService.cs
@@ -316,9 +304,6 @@ src/Extensions/Banshee.UPnPClient/Banshee.UPnPClient/UPnPContainerSource.cs
 src/Extensions/Banshee.UPnPClient/Banshee.UPnPClient/UPnPMusicSource.cs
 src/Extensions/Banshee.UPnPClient/Banshee.UPnPClient/UPnPServerSource.cs
 src/Extensions/Banshee.UPnPClient/Banshee.UPnPClient/UPnPVideoSource.cs
-src/Extensions/Banshee.Wikipedia/Banshee.Wikipedia.addin.xml
-src/Extensions/Banshee.Wikipedia/Banshee.Wikipedia/ContextPage.cs
-src/Extensions/Banshee.Wikipedia/Banshee.Wikipedia/WikipediaView.cs
 src/Extensions/Banshee.YouTube/Banshee.YouTube/ContextPage.cs
 src/Extensions/Banshee.YouTube/Banshee.YouTube.Gui/VideoStreamTile.cs
 src/Extensions/Banshee.YouTube/Banshee.YouTube/YouTubePane.cs

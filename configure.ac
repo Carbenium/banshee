@@ -158,15 +158,12 @@ dnl TreeView (optional)
 BANSHEE_CHECK_TREEVIEW
 
 dnl Extensions
-BANSHEE_CHECK_EXTENSION_AMAZONMP3
-BANSHEE_CHECK_EXTENSION_AMAZONMP3_STORE
 BANSHEE_CHECK_EXTENSION_AUDIOBOOK
 BANSHEE_CHECK_EXTENSION_BOOSCRIPT
 BANSHEE_CHECK_EXTENSION_BPM
 BANSHEE_CHECK_EXTENSION_COVERART
 BANSHEE_CHECK_EXTENSION_DAAP
 BANSHEE_CHECK_EXTENSION_EMUSIC
-BANSHEE_CHECK_EXTENSION_EMUSIC_STORE
 BANSHEE_CHECK_EXTENSION_FILESYSTEMQUEUE
 BANSHEE_CHECK_EXTENSION_FIXUP
 BANSHEE_CHECK_EXTENSION_INTERNETARCHIVE
@@ -192,7 +189,6 @@ BANSHEE_CHECK_EXTENSION_SQLDEBUGCONSOLE
 BANSHEE_CHECK_EXTENSION_TORRENT
 BANSHEE_CHECK_EXTENSION_UBUNTUONEMUSICSTORE
 BANSHEE_CHECK_EXTENSION_UPNPCLIENT
-BANSHEE_CHECK_EXTENSION_WIKIPEDIA
 BANSHEE_CHECK_EXTENSION_YOUTUBE
 
 dnl i18n
@@ -294,8 +290,6 @@ src/Core/Banshee.Core/Makefile
 src/Core/Banshee.Services/Makefile
 src/Core/Banshee.ThickClient/Makefile
 src/Core/Banshee.Widgets/Makefile
-src/Core/Banshee.WebBrowser/Makefile
-src/Core/Banshee.WebBrowser/libossifer/Makefile
 
 src/Backends/Makefile
 src/Backends/Banshee.Gio/Makefile
@@ -326,15 +320,12 @@ src/Dap/Banshee.Dap.Mtp/Makefile
 src/Dap/Banshee.Dap.Karma/Makefile
 
 src/Extensions/Makefile
-src/Extensions/Banshee.AmazonMp3/Makefile
-src/Extensions/Banshee.AmazonMp3.Store/Makefile
 src/Extensions/Banshee.Audiobook/Makefile
 src/Extensions/Banshee.BooScript/Makefile
 src/Extensions/Banshee.Bpm/Makefile
 src/Extensions/Banshee.CoverArt/Makefile
 src/Extensions/Banshee.Daap/Makefile
 src/Extensions/Banshee.Emusic/Makefile
-src/Extensions/Banshee.Emusic.Store/Makefile
 src/Extensions/Banshee.FileSystemQueue/Makefile
 src/Extensions/Banshee.InternetArchive/Makefile
 src/Extensions/Banshee.Fixup/Makefile
@@ -343,7 +334,6 @@ src/Extensions/Banshee.Lastfm/Makefile
 src/Extensions/Banshee.LastfmStreaming/Makefile
 src/Extensions/Banshee.LibraryWatcher/Makefile
 src/Extensions/Banshee.MiniMode/Makefile
-src/Extensions/Banshee.MiroGuide/Makefile
 src/Extensions/Banshee.MediaPanel/Makefile
 src/Extensions/Banshee.Mpris/Makefile
 src/Extensions/Banshee.MultimediaKeys/Makefile
@@ -359,7 +349,6 @@ src/Extensions/Banshee.Torrent/Makefile
 src/Extensions/Banshee.RemoteAudio/Makefile
 src/Extensions/Banshee.UbuntuOneMusicStore/Makefile
 src/Extensions/Banshee.UPnPClient/Makefile
-src/Extensions/Banshee.Wikipedia/Makefile
 src/Extensions/Banshee.YouTube/Makefile
 
 extras/metrics/Makefile
@@ -410,15 +399,12 @@ ${PACKAGE}-${VERSION}
     Web Browser:           ${have_libwebkit} (webkitgtk-3.0 >= $WEBKIT_MIN_VERSION, libsoup-2.4 >= $SOUP_MIN_VERSION)
 
   Extensions:
-    AmazonMp3:             ${enable_amazonmp3}
-    AmazonMp3.Store:       ${enable_amazonmp3_store}
     Audiobook:             ${enable_audiobook}
     Boo Scripting:         ${enable_boo} (boo >= $BOO_REQUIRED)
     Bpm:                   ${enable_bpm}
     CoverArt:              ${enable_coverart}
     DAAP:                  ${enable_daap}
     Emusic:                ${enable_emusic} 
-    Emusic.Store:          ${enable_emusic_store}
     FileSystemQueue:       ${enable_filesystemqueue}
     Fixup:                 ${enable_fixup}
     InternetArchive:       ${enable_internetarchive}
@@ -444,7 +430,6 @@ ${PACKAGE}-${VERSION}
     Torrent:               ${enable_torrent}
     Ubuntu One Store:      ${enable_ubuntuone} (ubuntuone-sharp >= $UBUNTUONESHARP_REQUIRED)
     UPnP:                  ${enable_upnp} (mono-upnp >= $MONOUPNP_REQUIRED)
-    Wikipedia:             ${enable_wikipedia}
     YouTube:               ${enable_youtube} (gdata-sharp >= $GDATASHARP_REQUIRED_VERSION)
 
   Build/Development:
