@@ -51,7 +51,7 @@ using Hyena.Widgets;
 
 namespace Banshee.NotificationArea
 {
-    internal class NotificationAreaService : IExtensionService
+    public class NotificationAreaService : IExtensionService
     {
         private INotificationAreaBox notif_area;
         private GtkElementsService elements_service;
